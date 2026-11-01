@@ -88,6 +88,7 @@ def build_matches(feed: dict, schedule: dict, expected_teams: set[str]) -> list[
             continue
         if not is_final_event(event):
             continue
+        competition = (event.get("competitions") or [{}])[0]
 
         event_id = str(event.get("id", ""))
         if not event_id or event_id in seen_ids:
