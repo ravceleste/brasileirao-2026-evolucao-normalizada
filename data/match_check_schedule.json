@@ -1,0 +1,5 @@
+{
+  "timezone": "America/Sao_Paulo",
+  "check_after_kickoff_minutes": 135,
+  "checks": {}
+}

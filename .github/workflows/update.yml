@@ -2,8 +2,9 @@ name: Update Brasileirão data
 
 on:
   schedule:
-    # 10:00 and 22:00 UTC = 07:00 and 19:00 in Brasília; 20:00 and 08:00 in Brisbane.
-    - cron: "0 10,22 * * *"
+    # Daily recovery and refresh of upcoming match-specific cron entries.
+    - cron: "0 7 * * *"
+      timezone: "America/Sao_Paulo"
   workflow_dispatch:
 
 permissions:
@@ -35,28 +36,35 @@ jobs:
       - name: Refresh results and run audits
         run: python scripts/update.py
 
+      - name: Schedule checks after upcoming match finishes
+        run: python scripts/schedule_matches.py
+
       - name: Commit data when it changed
         id: commit
         run: |
-          if git diff --quiet -- data/brasileirao_2026.json; then
-            echo "changed=false" >> "$GITHUB_OUTPUT"
+          git add data/brasileirao_2026.json data/match_check_schedule.json .github/workflows/match-checks.yml
+          if git diff --cached --quiet; then
+            echo "data_changed=false" >> "$GITHUB_OUTPUT"
           else
+            if git diff --cached --quiet -- data/brasileirao_2026.json; then
+              echo "data_changed=false" >> "$GITHUB_OUTPUT"
+            else
+              echo "data_changed=true" >> "$GITHUB_OUTPUT"
+            fi
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add data/brasileirao_2026.json
-            git commit -m "Update Brasileirão 2026 results"
+            git commit -m "Refresh match schedule and Brasileirão results"
             git push
-            echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Configure GitHub Pages
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.data_changed == 'true'
         uses: actions/configure-pages@v5
         with:
           enablement: true
 
       - name: Package static site
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.data_changed == 'true'
         run: |
           mkdir -p _site/data _site/assets
           cp index.html _site/index.html
@@ -64,12 +72,12 @@ jobs:
           cp assets/*.png _site/assets/
 
       - name: Upload Pages artifact
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.data_changed == 'true'
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
 
       - name: Deploy to GitHub Pages
-        if: steps.commit.outputs.changed == 'true'
+        if: steps.commit.outputs.data_changed == 'true'
         id: deployment
         uses: actions/deploy-pages@v4

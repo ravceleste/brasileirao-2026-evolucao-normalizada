@@ -15,7 +15,10 @@ Todos começam no jogo 0 com índice e pontos iguais a zero. Vitória soma +2 ao
 - `data/fixtures_2026.json`: confronto e rodada oficial, extraídos da tabela básica publicada pela CBF.
 - `assets/`: escudos que já estavam embutidos na visualização original.
 - `scripts/update.py`: busca o placar, recalcula as séries e interrompe o update se uma auditoria falhar.
-- `.github/workflows/update.yml`: busca novos resultados duas vezes ao dia e, quando há mudança, commita o JSON e publica o Pages atualizado. Também aceita execução manual.
+- `scripts/schedule_matches.py`: lê os horários futuros do feed ESPN e gera agendamentos de checagem após cada partida.
+- `scripts/check_after_matches.py`: espera até a checagem pós-jogo programada e tenta novamente se a fonte ainda não marcou a partida como encerrada.
+- `.github/workflows/update.yml`: faz uma conferência diária de recuperação, atualiza o calendário de partidas e aceita execução manual.
+- `.github/workflows/match-checks.yml`: é atualizado automaticamente para disparar uma verificação 2h15 após o início previsto de cada jogo.
 - `.github/workflows/pages.yml`: publica o site em alterações normais na branch `main` e permite publicação manual.
 
 ## Fonte dos resultados
@@ -41,9 +44,15 @@ python -m http.server 8000
 
 Depois, abra `http://localhost:8000`. O JSON não é reconstruído no HTML; atualizações futuras só alteram o arquivo de dados.
 
+## Atualização após os jogos
+
+O workflow consulta os horários futuros do feed ESPN e gera agendamentos por partida. A primeira checagem ocorre 2h15 após o início previsto; se a partida ainda não estiver finalizada no feed, há novas tentativas 15 e 45 minutos depois. A checagem diária às 07h de Brasília recupera resultados caso um gatilho não rode ou a partida seja adiada. Não há consultas de resultado durante o jogo.
+
+O GitHub Actions usa `America/Sao_Paulo` para os agendamentos. O horário é uma estimativa baseada no início previsto, e o próprio GitHub pode atrasar execuções agendadas. Partidas remarcadas são incorporadas quando o calendário é sincronizado no ciclo diário seguinte.
+
 ## Publicação gratuita no GitHub Pages
 
-O workflow de atualização usa cron UTC. `10:00 UTC` corresponde a `07:00` em Brasília e `20:00` em Brisbane; `22:00 UTC` corresponde a `19:00` em Brasília e `08:00` em Brisbane. GitHub Actions pode atrasar a execução em períodos de alta demanda. O workflow manual (`workflow_dispatch`) permite atualizar sob demanda.
+O workflow diário usa o fuso `America/Sao_Paulo`; os agendamentos pós-jogo usam a mesma zona. GitHub Actions pode atrasar execuções em períodos de alta demanda. Os workflows também podem ser executados manualmente (`workflow_dispatch`).
 
 Para habilitar a hospedagem no repositório, selecione GitHub Pages como fonte **GitHub Actions** nas configurações de Pages. Os workflows montam apenas `index.html`, JSON e escudos no artefato publicado. O job agendado tem permissão para commitar o novo JSON e fazer a publicação na mesma execução, sem backend permanente ou chave secreta.
 

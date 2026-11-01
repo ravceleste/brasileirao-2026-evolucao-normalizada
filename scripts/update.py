@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import os
 import tempfile
@@ -34,6 +35,10 @@ class AuditError(RuntimeError):
     pass
 
 
+class NotReadyError(RuntimeError):
+    """A scheduled match has not reached a final result yet."""
+
+
 def fetch_feed() -> dict:
     request = urllib.request.Request(
         FEED_URL,
@@ -53,6 +58,18 @@ def canonical_team(name: str) -> str:
     return ALIASES.get(name, name)
 
 
+def is_final_event(event: dict) -> bool:
+    competition = (event.get("competitions") or [{}])[0]
+    status = competition.get("status", {}).get("type", {})
+    name = status.get("name")
+    if name in {"STATUS_CANCELED", "STATUS_CANCELLED", "STATUS_ABANDONED", "STATUS_SUSPENDED"}:
+        return False
+    return bool(status.get("completed")) or name in {
+        "STATUS_FULL_TIME",
+        "STATUS_FINAL",
+    }
+
+
 def build_matches(feed: dict, schedule: dict, expected_teams: set[str]) -> list[dict]:
     fixture_round = {
         (item["home"], item["away"]): item["round"]
@@ -69,9 +86,7 @@ def build_matches(feed: dict, schedule: dict, expected_teams: set[str]) -> list[
     for event in feed["events"]:
         if event.get("season", {}).get("year") != 2026:
             continue
-        competition = (event.get("competitions") or [{}])[0]
-        status = competition.get("status", {}).get("type", {})
-        if status.get("name") not in {"STATUS_FULL_TIME", "STATUS_FINAL"}:
+        if not is_final_event(event):
             continue
 
         event_id = str(event.get("id", ""))
@@ -235,7 +250,7 @@ def make_data(current: dict, matches: list[dict]) -> dict:
     return result
 
 
-def main() -> None:
+def main(required_final_ids: set[str] | None = None) -> None:
     current = json.loads(DATA_PATH.read_text(encoding="utf-8"))
     schedule = json.loads(FIXTURES_PATH.read_text(encoding="utf-8"))
     expected_teams = set(current.get("teams", {}))
@@ -243,6 +258,17 @@ def main() -> None:
         raise AuditError("O JSON precisa conter exatamente os 20 clubes.")
 
     feed = fetch_feed()
+    target_ids_final: bool | None = None
+    if required_final_ids:
+        final_ids = {
+            str(event.get("id", ""))
+            for event in feed.get("events", [])
+            if is_final_event(event)
+        }
+        target_ids_final = required_final_ids <= final_ids
+        if not required_final_ids.intersection(final_ids):
+            raise NotReadyError("Nenhuma das partidas programadas foi encerrada.")
+
     matches = build_matches(feed, schedule, expected_teams)
     candidate = make_data(current, matches)
 
@@ -257,6 +283,8 @@ def main() -> None:
     current.pop("sourceUpdatedAt", None)
     if candidate == current:
         print(f"Sem alteração: {candidate['matchCount']} jogos encerrados.")
+        if target_ids_final is not None:
+            print(f"TARGETS_FINAL={str(target_ids_final).lower()}")
         return
 
     candidate["sourceUpdatedAt"] = datetime.now(timezone.utc).isoformat(timespec="seconds")
@@ -273,10 +301,22 @@ def main() -> None:
         f"Atualizado: {candidate['matchCount']} jogos, dados até "
         f"{candidate['lastDate']}; auditorias aprovadas."
     )
+    if target_ids_final is not None:
+        print(f"TARGETS_FINAL={str(target_ids_final).lower()}")
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--require-final-ids",
+        help="Only update once at least one listed ESPN event has a final result.",
+    )
+    args = parser.parse_args()
+    required = set(filter(None, (args.require_final_ids or "").split(",")))
     try:
-        main()
+        main(required or None)
+    except NotReadyError as exc:
+        print(f"AGUARDANDO_RESULTADO: {exc}")
+        raise SystemExit(2) from exc
     except AuditError as exc:
         raise SystemExit(f"AUDITORIA REPROVADA: {exc}") from exc
