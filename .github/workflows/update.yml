@@ -42,7 +42,7 @@ jobs:
       - name: Commit data when it changed
         id: commit
         run: |
-          git add data/brasileirao_2026.json data/match_check_schedule.json .github/workflows/match-checks.yml
+          git add data/brasileirao_2026.json data/match_check_schedule.json
           if git diff --cached --quiet; then
             echo "data_changed=false" >> "$GITHUB_OUTPUT"
           else

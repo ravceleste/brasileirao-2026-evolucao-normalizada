@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Retry scheduled checks after kickoff; never poll while a match is in progress."""
+"""Fetch scores only when a post-match check is due; never poll during games."""
 
 from __future__ import annotations
 
@@ -8,12 +8,16 @@ import os
 import subprocess
 import sys
 import time
+from datetime import datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parents[1]
 CHECKS_PATH = ROOT / "data" / "match_check_schedule.json"
 UPDATE_SCRIPT = ROOT / "scripts" / "update.py"
 RETRY_DELAYS = (15 * 60, 30 * 60)
+DUE_WINDOW = timedelta(minutes=15)
+BR_TZ = ZoneInfo("America/Sao_Paulo")
 
 
 def run_update(required_ids: list[str] | None) -> tuple[int, bool | None]:
@@ -34,20 +38,35 @@ def run_update(required_ids: list[str] | None) -> tuple[int, bool | None]:
     return result.returncode, targets_final
 
 
-def scheduled_event_ids(cron: str) -> list[str]:
-    if not cron or not CHECKS_PATH.exists():
+def scheduled_event_ids(now: datetime) -> list[str]:
+    if not CHECKS_PATH.exists():
         return []
     schedule = json.loads(CHECKS_PATH.read_text(encoding="utf-8"))
-    return schedule.get("checks", {}).get(cron, {}).get("event_ids", [])
+    due_ids: set[str] = set()
+    for entry in schedule.get("checks", {}).values():
+        try:
+            check_at = datetime.fromisoformat(entry["check_at"])
+        except (KeyError, TypeError, ValueError):
+            continue
+        if check_at.tzinfo is None:
+            continue
+        age = now - check_at.astimezone(BR_TZ)
+        if timedelta(0) <= age < DUE_WINDOW:
+            due_ids.update(str(event_id) for event_id in entry.get("event_ids", []))
+    return sorted(due_ids)
 
 
 def main() -> int:
-    cron = os.environ.get("GITHUB_EVENT_SCHEDULE", "")
-    event_ids = scheduled_event_ids(cron)
-    if not event_ids:
-        print("Sem IDs de partida para este gatilho; fazendo uma atualização normal.")
+    # Manual runs still refresh once. Scheduled runs are hourly quarter-hour
+    # wakeups, but only a local due-time match causes a result-feed request.
+    if not os.environ.get("GITHUB_EVENT_SCHEDULE") and os.environ.get("GITHUB_EVENT_NAME") == "workflow_dispatch":
         code, _ = run_update(None)
         return code
+
+    event_ids = scheduled_event_ids(datetime.now(BR_TZ))
+    if not event_ids:
+        print("Nenhuma checagem pós-jogo prevista neste horário; sem consulta à fonte.")
+        return 0
 
     for attempt in range(3):
         code, all_targets_final = run_update(event_ids)

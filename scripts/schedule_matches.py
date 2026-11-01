@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate date-specific GitHub cron entries for post-match result checks."""
+"""Generate a local schedule for checks after upcoming matches finish."""
 
 from __future__ import annotations
 
@@ -15,9 +15,9 @@ from update import AuditError, ROOT, canonical_team, fetch_feed
 FIXTURES_PATH = ROOT / "data" / "fixtures_2026.json"
 TEAMS_PATH = ROOT / "data" / "brasileirao_2026.json"
 CHECKS_PATH = ROOT / "data" / "match_check_schedule.json"
-WORKFLOW_PATH = ROOT / ".github" / "workflows" / "match-checks.yml"
 BR_TZ = ZoneInfo("America/Sao_Paulo")
 CHECK_AFTER_KICKOFF = timedelta(hours=2, minutes=15)
+CHECK_INTERVAL_MINUTES = 15
 LOOKAHEAD = timedelta(days=14)
 FINAL_STATUSES = {"STATUS_FULL_TIME", "STATUS_FINAL"}
 IGNORED_STATUSES = {"STATUS_CANCELED", "STATUS_CANCELLED"}
@@ -79,6 +79,13 @@ def build_check_schedule(feed: dict, fixtures: dict, teams: set[str], now: datet
             raise AuditError(f"Horário sem fuso para a partida {event_id}.")
         kickoff = kickoff.astimezone(timezone.utc)
         check_at = kickoff + CHECK_AFTER_KICKOFF
+        # The fixed GitHub cron wakes every 15 minutes. Round each target up
+        # to its next slot so the workflow only fetches results after this time.
+        remainder = check_at.minute % CHECK_INTERVAL_MINUTES
+        if remainder or check_at.second or check_at.microsecond:
+            check_at = check_at.replace(second=0, microsecond=0) + timedelta(
+                minutes=CHECK_INTERVAL_MINUTES - remainder
+            )
         if check_at <= now_utc or check_at > now_utc + LOOKAHEAD:
             continue
 
@@ -108,92 +115,6 @@ def build_check_schedule(feed: dict, fixtures: dict, teams: set[str], now: datet
     }
 
 
-def render_workflow(schedule: dict) -> str:
-    lines = [
-        "name: Update after scheduled matches",
-        "",
-        "on:",
-    ]
-    if schedule["checks"]:
-        lines.append("  schedule:")
-        for cron, entry in schedule["checks"].items():
-            lines.extend(
-                [
-                    f'    - cron: "{cron}"',
-                    '      timezone: "America/Sao_Paulo"',
-                ]
-            )
-    lines.extend(
-        [
-            "  workflow_dispatch:",
-            "",
-            "permissions:",
-            "  contents: write",
-            "  pages: write",
-            "  id-token: write",
-            "",
-            "concurrency:",
-            "  group: brasileirao-pages",
-            "  cancel-in-progress: false",
-            "",
-            "jobs:",
-            "  refresh-and-deploy:",
-            "    runs-on: ubuntu-latest",
-            "    environment:",
-            "      name: github-pages",
-            "      url: ${{ steps.deployment.outputs.page_url }}",
-            "    steps:",
-            "      - name: Check out repository",
-            "        uses: actions/checkout@v4",
-            "        with:",
-            "          ref: main",
-            "      - name: Set up Python",
-            "        uses: actions/setup-python@v5",
-            '        with:\n          python-version: "3.x"',
-            "      - name: Wait for scheduled matches to finish and update results",
-            "        env:",
-            "          GITHUB_EVENT_SCHEDULE: ${{ github.event.schedule }}",
-            "        run: python scripts/check_after_matches.py",
-            "      - name: Commit data when it changed",
-            "        id: commit",
-            "        run: |",
-            "          if git diff --quiet -- data/brasileirao_2026.json; then",
-            '            echo "changed=false" >> "$GITHUB_OUTPUT"',
-            "          else",
-            '            git config user.name "github-actions[bot]"',
-            '            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"',
-            "            git add data/brasileirao_2026.json",
-            '            git commit -m "Update Brasileirão 2026 results"',
-            "            git push",
-            '            echo "changed=true" >> "$GITHUB_OUTPUT"',
-            "          fi",
-            "      - name: Configure GitHub Pages",
-            "        if: steps.commit.outputs.changed == 'true'",
-            "        uses: actions/configure-pages@v5",
-            "        with:",
-            "          enablement: true",
-            "      - name: Package static site",
-            "        if: steps.commit.outputs.changed == 'true'",
-            "        run: |",
-            "          mkdir -p _site/data _site/assets",
-            "          cp index.html _site/index.html",
-            "          cp data/brasileirao_2026.json _site/data/",
-            "          cp assets/*.png _site/assets/",
-            "      - name: Upload Pages artifact",
-            "        if: steps.commit.outputs.changed == 'true'",
-            "        uses: actions/upload-pages-artifact@v3",
-            "        with:",
-            "          path: _site",
-            "      - name: Deploy to GitHub Pages",
-            "        if: steps.commit.outputs.changed == 'true'",
-            "        id: deployment",
-            "        uses: actions/deploy-pages@v4",
-            "",
-        ]
-    )
-    return "\n".join(lines)
-
-
 def main() -> None:
     fixtures = json.loads(FIXTURES_PATH.read_text(encoding="utf-8"))
     data = json.loads(TEAMS_PATH.read_text(encoding="utf-8"))
@@ -207,7 +128,6 @@ def main() -> None:
         json.dumps(schedule, ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
-    WORKFLOW_PATH.write_text(render_workflow(schedule), encoding="utf-8")
     print(f"Agendamentos pós-jogo gerados: {len(schedule['checks'])} horários.")
 
 

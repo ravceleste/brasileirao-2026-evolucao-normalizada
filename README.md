@@ -15,10 +15,10 @@ Todos começam no jogo 0 com índice e pontos iguais a zero. Vitória soma +2 ao
 - `data/fixtures_2026.json`: confronto e rodada oficial, extraídos da tabela básica publicada pela CBF.
 - `assets/`: escudos que já estavam embutidos na visualização original.
 - `scripts/update.py`: busca o placar, recalcula as séries e interrompe o update se uma auditoria falhar.
-- `scripts/schedule_matches.py`: lê os horários futuros do feed ESPN e gera agendamentos de checagem após cada partida.
+- `scripts/schedule_matches.py`: lê os horários futuros do feed ESPN e gera um calendário local de checagens após cada partida.
 - `scripts/check_after_matches.py`: espera até a checagem pós-jogo programada e tenta novamente se a fonte ainda não marcou a partida como encerrada.
 - `.github/workflows/update.yml`: faz uma conferência diária de recuperação, atualiza o calendário de partidas e aceita execução manual.
-- `.github/workflows/match-checks.yml`: é atualizado automaticamente para disparar uma verificação 2h15 após o início previsto de cada jogo.
+- `.github/workflows/match-checks.yml`: acorda a cada 15 minutos; o script só consulta a fonte quando chega um horário pós-jogo previsto no calendário local.
 - `.github/workflows/pages.yml`: publica o site em alterações normais na branch `main` e permite publicação manual.
 
 ## Fonte dos resultados
@@ -46,13 +46,13 @@ Depois, abra `http://localhost:8000`. O JSON não é reconstruído no HTML; atua
 
 ## Atualização após os jogos
 
-O workflow consulta os horários futuros do feed ESPN e gera agendamentos por partida. A primeira checagem ocorre 2h15 após o início previsto; se a partida ainda não estiver finalizada no feed, há novas tentativas 15 e 45 minutos depois. A checagem diária às 07h de Brasília recupera resultados caso um gatilho não rode ou a partida seja adiada. Não há consultas de resultado durante o jogo.
+O workflow diário consulta os horários futuros do feed ESPN e atualiza o calendário local de checagens. Um workflow fixo acorda a cada 15 minutos, mas só consulta resultados quando há uma partida cujo horário de checagem já chegou; não há consultas de resultado durante os jogos. A primeira consulta ocorre entre 2h15 e 2h30 após o início previsto (arredondada para o próximo intervalo de 15 minutos). Se a partida ainda não estiver finalizada no feed, há novas tentativas 15 e 45 minutos depois. A checagem diária às 07h de Brasília recupera resultados caso uma execução agendada atrase ou a partida seja remarcada.
 
 O GitHub Actions usa `America/Sao_Paulo` para os agendamentos. O horário é uma estimativa baseada no início previsto, e o próprio GitHub pode atrasar execuções agendadas. Partidas remarcadas são incorporadas quando o calendário é sincronizado no ciclo diário seguinte.
 
 ## Publicação gratuita no GitHub Pages
 
-O workflow diário usa o fuso `America/Sao_Paulo`; os agendamentos pós-jogo usam a mesma zona. GitHub Actions pode atrasar execuções em períodos de alta demanda. Os workflows também podem ser executados manualmente (`workflow_dispatch`).
+Os workflows usam o fuso `America/Sao_Paulo`. O verificador acorda a cada 15 minutos, mas só busca resultados quando um horário pós-jogo vence; isso mantém os gatilhos estáveis sem permissão para que o Actions regrave arquivos de workflow. O GitHub pode atrasar execuções em períodos de alta demanda. Os workflows também podem ser executados manualmente (`workflow_dispatch`).
 
 Para habilitar a hospedagem no repositório, selecione GitHub Pages como fonte **GitHub Actions** nas configurações de Pages. Os workflows montam apenas `index.html`, JSON e escudos no artefato publicado. O job agendado tem permissão para commitar o novo JSON e fazer a publicação na mesma execução, sem backend permanente ou chave secreta.
 

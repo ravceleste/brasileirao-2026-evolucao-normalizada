@@ -1,6 +1,10 @@
 name: Update after scheduled matches
 
 on:
+  schedule:
+    # The script checks the local schedule and fetches results only after a due time.
+    - cron: "*/15 * * * *"
+      timezone: "America/Sao_Paulo"
   workflow_dispatch:
 
 permissions:
