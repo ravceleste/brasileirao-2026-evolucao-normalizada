@@ -132,11 +132,58 @@ svg {
   font-size:12px;
   margin-left:auto;
 }
+.chart-scroll-hint { display:none; }
 @media (max-width:800px) {
   .page { padding:18px 10px 26px; }
   .header { display:block; }
   .meta { justify-content:flex-start; margin-top:12px; }
   .legend-hint { width:100%; margin-left:0; }
+}
+@media (max-width:600px) {
+  .page { padding:18px 12px 24px; }
+  h1 { font-size:clamp(24px,7vw,30px); line-height:1.08; }
+  .subtitle { font-size:14px; line-height:1.45; }
+  .meta { gap:6px; }
+  .pill { padding:7px 9px; font-size:11px; }
+  .controls {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .controls label, .legend-hint { grid-column:1 / -1; }
+  .controls label { font-size:13px; }
+  select, button { min-height:44px; font-size:14px; }
+  select {
+    width:100%;
+    min-width:0;
+    padding:10px 34px 10px 12px;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23667085' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 12px center;
+  }
+  button { padding:10px 12px; white-space:nowrap; }
+  .legend-hint { margin:0; font-size:12px; line-height:1.4; }
+  .chart-card { border-radius:14px; }
+  .chart-scroll {
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+    touch-action:pan-x pan-y;
+  }
+  .chart-scroll-hint {
+    display:block;
+    padding:11px 13px 0;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.4;
+  }
+  .tooltip {
+    width:min(280px,calc(100vw - 56px));
+    min-width:0;
+    max-width:none;
+    font-size:13px;
+  }
+  .footer-note { padding:12px 13px 14px; font-size:12px; }
 }
 </style>
 </head>
@@ -165,6 +212,7 @@ svg {
   </div>
 
   <div class="chart-card">
+    <div class="chart-scroll-hint">Deslize o gráfico para os lados para ver os jogos e os rótulos finais.</div>
     <div class="chart-scroll" id="chartWrap">
       <svg id="chart" viewBox="0 0 1450 830" role="img" aria-label="Evolução normalizada do Campeonato Brasileiro 2026"></svg>
       <div class="tooltip" id="tooltip"></div>
