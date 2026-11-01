@@ -1,0 +1,1 @@
+# Update and validation scripts use only the Python standard library.

@@ -1,0 +1,73 @@
+name: Update Brasileirão data
+
+on:
+  schedule:
+    # 10:00 and 22:00 UTC = 07:00 and 19:00 in Brasília; 20:00 and 08:00 in Brisbane.
+    - cron: "0 10,22 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: brasileirao-pages
+  cancel-in-progress: false
+
+jobs:
+  refresh-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Refresh results and run audits
+        run: python scripts/update.py
+
+      - name: Commit data when it changed
+        id: commit
+        run: |
+          if git diff --quiet -- data/brasileirao_2026.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add data/brasileirao_2026.json
+            git commit -m "Update Brasileirão 2026 results"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Configure GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Package static site
+        if: steps.commit.outputs.changed == 'true'
+        run: |
+          mkdir -p _site/data _site/assets
+          cp index.html _site/index.html
+          cp data/brasileirao_2026.json _site/data/
+          cp assets/*.png _site/assets/
+
+      - name: Upload Pages artifact
+        if: steps.commit.outputs.changed == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        if: steps.commit.outputs.changed == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4

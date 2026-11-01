@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Brasileirão 2026 — evolução normalizada</title>
+<style>
+:root {
+  --bg:#f7f8fb;
+  --card:#ffffff;
+  --text:#101828;
+  --muted:#667085;
+  --border:#e4e7ec;
+  --grid:#e8ebf0;
+  --accent:#111827;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+.page {
+  max-width:1560px;
+  margin:0 auto;
+  padding:28px 22px 38px;
+}
+.header {
+  display:flex;
+  justify-content:space-between;
+  gap:24px;
+  align-items:flex-start;
+  margin-bottom:18px;
+}
+h1 {
+  margin:0 0 7px;
+  font-size:clamp(25px,3vw,40px);
+  line-height:1.05;
+  letter-spacing:-.035em;
+}
+.subtitle {
+  color:var(--muted);
+  font-size:15px;
+  line-height:1.5;
+  max-width:860px;
+}
+.meta {
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  justify-content:flex-end;
+}
+.pill {
+  border:1px solid var(--border);
+  background:var(--card);
+  border-radius:999px;
+  padding:7px 11px;
+  font-size:12px;
+  color:#475467;
+  white-space:nowrap;
+}
+.controls {
+  display:flex;
+  align-items:center;
+  gap:9px;
+  flex-wrap:wrap;
+  margin:0 0 14px;
+}
+.controls label {
+  color:var(--muted);
+  font-size:13px;
+  font-weight:600;
+}
+select, button {
+  appearance:none;
+  border:1px solid var(--border);
+  background:#fff;
+  color:var(--text);
+  border-radius:9px;
+  padding:8px 11px;
+  font-size:13px;
+  font-weight:600;
+}
+button { cursor:pointer; }
+button:hover, select:hover { border-color:#98a2b3; }
+.chart-card {
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:18px;
+  box-shadow:0 1px 2px rgba(16,24,40,.04);
+  overflow:hidden;
+}
+.chart-scroll {
+  position:relative;
+  width:100%;
+  overflow-x:auto;
+}
+svg {
+  display:block;
+  width:100%;
+  min-width:1120px;
+  height:auto;
+  background:white;
+}
+.tooltip {
+  position:absolute;
+  display:none;
+  pointer-events:none;
+  min-width:215px;
+  max-width:280px;
+  background:rgba(16,24,40,.96);
+  color:white;
+  border-radius:10px;
+  padding:10px 12px;
+  font-size:12.5px;
+  line-height:1.45;
+  box-shadow:0 8px 24px rgba(16,24,40,.22);
+  z-index:50;
+}
+.tooltip strong { font-size:13.5px; }
+.tooltip .dim { color:#d0d5dd; }
+.footer-note {
+  padding:13px 16px 16px;
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.45;
+  border-top:1px solid #f0f1f3;
+}
+.legend-hint {
+  color:var(--muted);
+  font-size:12px;
+  margin-left:auto;
+}
+@media (max-width:800px) {
+  .page { padding:18px 10px 26px; }
+  .header { display:block; }
+  .meta { justify-content:flex-start; margin-top:12px; }
+  .legend-hint { width:100%; margin-left:0; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div>
+      <h1>Brasileirão 2026 — evolução normalizada</h1>
+      <div class="subtitle">
+        Todos partem de <strong>0 na rodada 0</strong>. Depois, vitória = +2, empate = 0 e derrota = −1.
+        O eixo X segue o 1º, 2º, 3º… jogo realmente disputado por cada time, em ordem cronológica.
+      </div>
+    </div>
+    <div class="meta">
+      <div class="pill" id="matchCount">Carregando jogos…</div>
+      <div class="pill" id="lastDate">Carregando data…</div>
+      <div class="pill">rodada 0 = 0</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <label for="teamSelect">Destacar</label>
+    <select id="teamSelect"></select>
+    <button id="allBtn">Mostrar todos</button>
+    <span class="legend-hint">Passe o mouse ou toque em uma linha/escudo para seguir a trajetória.</span>
+  </div>
+
+  <div class="chart-card">
+    <div class="chart-scroll" id="chartWrap">
+      <svg id="chart" viewBox="0 0 1450 830" role="img" aria-label="Evolução normalizada do Campeonato Brasileiro 2026"></svg>
+      <div class="tooltip" id="tooltip"></div>
+    </div>
+    <div class="footer-note">
+      <strong>Índice normalizado = pontos acumulados − jogos disputados.</strong>
+      Por isso todos começam em 0, e uma vitória acrescenta 2, um empate não altera o índice e uma derrota reduz 1.
+      Os rótulos à direita mostram os <strong>pontos oficiais</strong> e o número de jogos disputados.
+      Times com jogo a menos simplesmente terminam antes no eixo X — não há segmento fictício.
+    </div>
+  </div>
+</div>
+
+<script>
+fetch("./data/brasileirao_2026.json", {cache:"no-cache"})
+  .then(response => { if (!response.ok) throw new Error("HTTP " + response.status); return response.json(); })
+  .then(DATA => {
+const svg = document.getElementById("chart");
+const wrap = document.getElementById("chartWrap");
+const tooltip = document.getElementById("tooltip");
+const select = document.getElementById("teamSelect");
+const allBtn = document.getElementById("allBtn");
+
+const NS = "http://www.w3.org/2000/svg";
+const W = 1450, H = 830;
+const M = {left:74, top:42, right:305, bottom:72};
+const plotW = W - M.left - M.right;
+const plotH = H - M.top - M.bottom;
+const labelX = W - 208;
+const logoX = W - 244;
+
+let lockedTeam = DATA.defaultTeam;
+let hoverTeam = null;
+
+const allNorms = Object.values(DATA.teams).flatMap(t => t.points.map(p => p.norm));
+const rawMin = Math.min(...allNorms);
+const rawMax = Math.max(...allNorms);
+const yMin = Math.floor((rawMin - 2) / 5) * 5;
+const yMax = Math.ceil((rawMax + 2) / 5) * 5;
+
+const xScale = x => M.left + (x / DATA.maxGames) * plotW;
+const yScale = y => M.top + ((yMax - y) / (yMax - yMin)) * plotH;
+
+function el(name, attrs={}, parent=svg) {
+  const n = document.createElementNS(NS, name);
+  for (const [k,v] of Object.entries(attrs)) n.setAttribute(k, v);
+  parent.appendChild(n);
+  return n;
+}
+
+function text(x,y,content,attrs={},parent=svg) {
+  const n = el("text", {x,y,...attrs}, parent);
+  n.textContent = content;
+  return n;
+}
+
+function pathFrom(points) {
+  return points.map((p,i) => `${i ? "L" : "M"} ${xScale(p.game).toFixed(2)} ${yScale(p.norm).toFixed(2)}`).join(" ");
+}
+
+function formatDate(iso) {
+  if (!iso) return "";
+  const [y,m,d] = iso.split("-").map(Number);
+  return new Intl.DateTimeFormat("pt-BR", {day:"2-digit",month:"short",year:"numeric"}).format(new Date(y,m-1,d));
+}
+
+// Fundo e grid
+el("rect", {x:0,y:0,width:W,height:H,fill:"#fff"});
+
+for (let y = Math.ceil(yMin/5)*5; y <= yMax; y += 5) {
+  const py = yScale(y);
+  el("line", {x1:M.left,y1:py,x2:M.left+plotW,y2:py,stroke:"#e8ebf0","stroke-width":1});
+  text(M.left-12, py+4, y, {"text-anchor":"end",fill:"#667085","font-size":11});
+}
+
+for (let x=0; x<=DATA.maxGames; x++) {
+  const px = xScale(x);
+  const major = x===0 || x%2===0 || x===DATA.maxGames;
+  el("line", {
+    x1:px,y1:M.top,x2:px,y2:M.top+plotH,
+    stroke: major ? "#edf0f3" : "#f6f7f9",
+    "stroke-width": major ? 1 : .7
+  });
+  text(px, M.top+plotH+24, x, {"text-anchor":"middle",fill:x===0?"#101828":"#667085","font-size":10.5,"font-weight":x===0?700:400});
+}
+
+// Eixos
+el("line", {x1:M.left,y1:M.top+plotH,x2:M.left+plotW,y2:M.top+plotH,stroke:"#98a2b3","stroke-width":1});
+el("line", {x1:M.left,y1:M.top,x2:M.left,y2:M.top+plotH,stroke:"#98a2b3","stroke-width":1});
+text(M.left+plotW/2, H-20, "Número do jogo disputado pelo time", {"text-anchor":"middle",fill:"#475467","font-size":12.5,"font-weight":600});
+const yTitle = text(21, M.top+plotH/2, "Valor normalizado", {"text-anchor":"middle",fill:"#475467","font-size":12.5,"font-weight":600});
+yTitle.setAttribute("transform", `rotate(-90 21 ${M.top+plotH/2})`);
+
+// Rodada 0 destacada
+el("line", {x1:xScale(0),y1:M.top,x2:xScale(0),y2:M.top+plotH,stroke:"#344054","stroke-width":1.5,"stroke-dasharray":"4 4","opacity":.55});
+text(xScale(0)+8, M.top+16, "rodada 0", {fill:"#344054","font-size":10.5,"font-weight":700});
+
+// Calcula posições dos labels sem colisão, mantendo ordem pelo índice final
+const endItems = Object.entries(DATA.teams)
+  .map(([name,t]) => ({name, endY:yScale(t.finalNorm)}))
+  .sort((a,b) => a.endY-b.endY);
+
+const minGap = 28;
+for (let i=1;i<endItems.length;i++) {
+  if (endItems[i].endY - endItems[i-1].endY < minGap) {
+    endItems[i].endY = endItems[i-1].endY + minGap;
+  }
+}
+const bottomLimit = M.top + plotH - 6;
+let overflow = endItems[endItems.length-1].endY - bottomLimit;
+if (overflow > 0) endItems.forEach(d => d.endY -= overflow);
+const topLimit = M.top + 6;
+let under = topLimit - endItems[0].endY;
+if (under > 0) endItems.forEach(d => d.endY += under);
+
+const labelY = Object.fromEntries(endItems.map(d => [d.name,d.endY]));
+
+// Grupos por time
+const teamGroups = {};
+
+for (const name of DATA.ranking.slice().reverse()) {
+  const t = DATA.teams[name];
+  const g = el("g", {"data-team":name});
+  teamGroups[name] = g;
+
+  const d = pathFrom(t.points);
+
+  // halo branco para separar cruzamentos
+  el("path", {
+    d, fill:"none", stroke:"#fff", "stroke-width":4.8,
+    "stroke-linejoin":"round","stroke-linecap":"round", opacity:.95,
+    class:"halo"
+  }, g);
+
+  const line = el("path", {
+    d, fill:"none", stroke:t.color, "stroke-width":2.15,
+    "stroke-linejoin":"round","stroke-linecap":"round",
+    "stroke-dasharray":t.dash || "",
+    class:"series-line", style:"cursor:pointer"
+  }, g);
+  line.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
+  line.addEventListener("mouseleave", () => {hoverTeam=null; updateStyles();});
+  line.addEventListener("click", () => {lockedTeam=name; select.value=name; updateStyles();});
+
+  // marcadores visíveis apenas quando o time está em destaque
+  const markerGroup = el("g", {class:"markers"}, g);
+  t.points.forEach(p => {
+    el("circle", {
+      cx:xScale(p.game), cy:yScale(p.norm), r:3.6,
+      fill:t.color, stroke:"#fff","stroke-width":1.2
+    }, markerGroup);
+
+    const hit = el("circle", {
+      cx:xScale(p.game), cy:yScale(p.norm), r:8,
+      fill:"transparent", style:"cursor:pointer"
+    }, g);
+    hit.addEventListener("mouseenter", e => {
+      hoverTeam=name; updateStyles();
+      showTooltip(e,name,p);
+    });
+    hit.addEventListener("mousemove", e => positionTooltip(e));
+    hit.addEventListener("mouseleave", () => {
+      hoverTeam=null; updateStyles(); hideTooltip();
+    });
+    hit.addEventListener("click", e => {
+      lockedTeam=name; select.value=name; updateStyles();
+      showTooltip(e,name,p);
+    });
+  });
+
+  // conector desde o último ponto real
+  const last = t.points[t.points.length-1];
+  const ly = labelY[name];
+  const connector = el("line", {
+    x1:xScale(last.game)+5, y1:yScale(last.norm),
+    x2:logoX-20, y2:ly,
+    stroke:t.color,"stroke-width":.9,opacity:.48,
+    class:"connector"
+  }, g);
+
+  // endpoint
+  el("circle", {
+    cx:xScale(last.game),cy:yScale(last.norm),r:3.5,
+    fill:t.color,stroke:"#fff","stroke-width":1.2,class:"endpoint"
+  }, g);
+
+  // logo
+  const img = el("image", {
+    href:t.logo,x:logoX-17,y:ly-17,width:34,height:34,
+    preserveAspectRatio:"xMidYMid meet",
+    style:"cursor:pointer"
+  }, g);
+  img.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
+  img.addEventListener("mouseleave", () => {hoverTeam=null; updateStyles();});
+  img.addEventListener("click", () => {lockedTeam=name; select.value=name; updateStyles();});
+
+  // label
+  const lbl = text(labelX, ly-2, `${t.abbr}  ${t.officialPoints} pts`, {
+    fill:t.color,"font-size":12.5,"font-weight":800,style:"cursor:pointer"
+  }, g);
+  const sub = text(labelX, ly+12, `${t.games}J · índice ${t.finalNorm >= 0 ? "+" : ""}${t.finalNorm}`, {
+    fill:"#667085","font-size":9.5,style:"cursor:pointer"
+  }, g);
+  [lbl,sub].forEach(node => {
+    node.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
+    node.addEventListener("mouseleave", () => {hoverTeam=null; updateStyles();});
+    node.addEventListener("click", () => {lockedTeam=name; select.value=name; updateStyles();});
+  });
+}
+
+// Tooltip
+function showTooltip(e,name,p) {
+  const t = DATA.teams[name];
+  if (p.game === 0) {
+    tooltip.innerHTML = `<strong>${name}</strong><br><span class="dim">Rodada 0 · antes do primeiro jogo</span><br>Índice normalizado: <strong>0</strong><br>Pontos oficiais: <strong>0</strong>`;
+  } else {
+    const venue = p.home ? "casa" : "fora";
+    const result = p.gf > p.ga ? "vitória" : p.gf < p.ga ? "derrota" : "empate";
+    tooltip.innerHTML =
+      `<strong>${name}</strong> · jogo ${p.game}<br>` +
+      `<span class="dim">${formatDate(p.date)} · rodada oficial ${p.official_round} · ${venue}</span><br>` +
+      `${name} <strong>${p.gf} × ${p.ga}</strong> ${p.opponent} · ${result}<br>` +
+      `Pontos oficiais acumulados: <strong>${p.official_points}</strong><br>` +
+      `Índice normalizado: <strong>${p.norm >= 0 ? "+" : ""}${p.norm}</strong>`;
+  }
+  tooltip.style.display="block";
+  positionTooltip(e);
+}
+function positionTooltip(e) {
+  const r = wrap.getBoundingClientRect();
+  const width = tooltip.offsetWidth || 280;
+  const height = tooltip.offsetHeight || 160;
+  let x = e.clientX - r.left + wrap.scrollLeft + 14;
+  let y = e.clientY - r.top + 14;
+  const minX = wrap.scrollLeft + 8;
+  const maxX = wrap.scrollLeft + wrap.clientWidth - width - 8;
+  const maxY = wrap.clientHeight - height - 8;
+  if (x > maxX) x = e.clientX - r.left + wrap.scrollLeft - width - 14;
+  x = Math.max(minX, Math.min(x, maxX));
+  y = Math.max(8, Math.min(y, maxY));
+  tooltip.style.left = x + "px";
+  tooltip.style.top = y + "px";
+}
+function hideTooltip() { tooltip.style.display="none"; }
+
+// Interação
+function updateStyles() {
+  const active = hoverTeam || lockedTeam;
+  for (const [name,g] of Object.entries(teamGroups)) {
+    const isActive = !active || name===active;
+    const isSantosDefault = !active && name==="Santos";
+    const line = g.querySelector(".series-line");
+    const halo = g.querySelector(".halo");
+    const markers = g.querySelector(".markers");
+    const connector = g.querySelector(".connector");
+
+    if (active) {
+      g.style.opacity = isActive ? "1" : "0.13";
+      line.setAttribute("stroke-width", isActive ? "4.1" : "1.7");
+      halo.setAttribute("stroke-width", isActive ? "6.4" : "4.1");
+      markers.style.opacity = isActive ? "1" : "0";
+      connector.setAttribute("opacity", isActive ? ".9" : ".18");
+    } else {
+      g.style.opacity = "1";
+      line.setAttribute("stroke-width", name==="Santos" ? "3.2" : "2.05");
+      halo.setAttribute("stroke-width", name==="Santos" ? "5.6" : "4.6");
+      markers.style.opacity = name==="Santos" ? "1" : "0";
+      connector.setAttribute("opacity", name==="Santos" ? ".75" : ".45");
+    }
+  }
+}
+
+document.getElementById("matchCount").textContent = `${DATA.matchCount} jogos concluídos`;
+document.getElementById("lastDate").textContent = `dados até ${new Intl.DateTimeFormat("pt-BR").format(new Date(DATA.lastDate + "T12:00:00"))}`;
+
+select.innerHTML = `<option value="">Todos os times</option>` + DATA.ranking.map(name =>
+  `<option value="${name}" ${name===DATA.defaultTeam ? "selected" : ""}>${name}</option>`
+).join("");
+
+select.addEventListener("change", () => {
+  lockedTeam = select.value || null;
+  updateStyles();
+});
+allBtn.addEventListener("click", () => {
+  lockedTeam = null;
+  hoverTeam = null;
+  select.value = "";
+  hideTooltip();
+  updateStyles();
+});
+
+updateStyles();
+  })
+  .catch(error => {
+    const card = document.querySelector(".chart-card");
+    card.innerHTML = `<div class="footer-note">Não foi possível carregar os dados do campeonato. Atualize a página ou tente novamente mais tarde.</div>`;
+    console.error(error);
+  });
+</script>
+</body>
+</html>

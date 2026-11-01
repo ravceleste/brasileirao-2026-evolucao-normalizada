@@ -1,0 +1,2286 @@
+{
+  "source": "CBF — Tabela Básica / Edição 2026",
+  "url": "https://www.cbf.com.br/futebol-brasileiro/noticias/detalhes/competicoes-campeonato-brasileiro-serie-b/cbf-divulga-tabela-detalhada-das-primeiras-rodadas-do-brasileirao-2026",
+  "fixtures": [
+    {
+      "reference": 1,
+      "round": 1,
+      "home": "Fluminense",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 2,
+      "round": 1,
+      "home": "Botafogo",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 3,
+      "round": 1,
+      "home": "São Paulo",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 4,
+      "round": 1,
+      "home": "Corinthians",
+      "away": "Bahia"
+    },
+    {
+      "reference": 5,
+      "round": 1,
+      "home": "Mirassol",
+      "away": "Vasco"
+    },
+    {
+      "reference": 6,
+      "round": 1,
+      "home": "Atlético-MG",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 7,
+      "round": 1,
+      "home": "Internacional",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 8,
+      "round": 1,
+      "home": "Coritiba",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 9,
+      "round": 1,
+      "home": "Vitória",
+      "away": "Remo"
+    },
+    {
+      "reference": 10,
+      "round": 1,
+      "home": "Chapecoense",
+      "away": "Santos"
+    },
+    {
+      "reference": 11,
+      "round": 2,
+      "home": "Flamengo",
+      "away": "Internacional"
+    },
+    {
+      "reference": 12,
+      "round": 2,
+      "home": "Vasco",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 13,
+      "round": 2,
+      "home": "Santos",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 14,
+      "round": 2,
+      "home": "Palmeiras",
+      "away": "Vitória"
+    },
+    {
+      "reference": 15,
+      "round": 2,
+      "home": "Bragantino",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 16,
+      "round": 2,
+      "home": "Cruzeiro",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 17,
+      "round": 2,
+      "home": "Grêmio",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 18,
+      "round": 2,
+      "home": "Athletico-PR",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 19,
+      "round": 2,
+      "home": "Bahia",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 20,
+      "round": 2,
+      "home": "Remo",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 21,
+      "round": 3,
+      "home": "Fluminense",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 22,
+      "round": 3,
+      "home": "Vasco",
+      "away": "Bahia"
+    },
+    {
+      "reference": 23,
+      "round": 3,
+      "home": "São Paulo",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 24,
+      "round": 3,
+      "home": "Corinthians",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 25,
+      "round": 3,
+      "home": "Mirassol",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 26,
+      "round": 3,
+      "home": "Atlético-MG",
+      "away": "Remo"
+    },
+    {
+      "reference": 27,
+      "round": 3,
+      "home": "Internacional",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 28,
+      "round": 3,
+      "home": "Athletico-PR",
+      "away": "Santos"
+    },
+    {
+      "reference": 29,
+      "round": 3,
+      "home": "Vitória",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 30,
+      "round": 3,
+      "home": "Chapecoense",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 31,
+      "round": 4,
+      "home": "Flamengo",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 32,
+      "round": 4,
+      "home": "Botafogo",
+      "away": "Vitória"
+    },
+    {
+      "reference": 33,
+      "round": 4,
+      "home": "Santos",
+      "away": "Vasco"
+    },
+    {
+      "reference": 34,
+      "round": 4,
+      "home": "Palmeiras",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 35,
+      "round": 4,
+      "home": "Bragantino",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 36,
+      "round": 4,
+      "home": "Cruzeiro",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 37,
+      "round": 4,
+      "home": "Grêmio",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 38,
+      "round": 4,
+      "home": "Coritiba",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 39,
+      "round": 4,
+      "home": "Bahia",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 40,
+      "round": 4,
+      "home": "Remo",
+      "away": "Internacional"
+    },
+    {
+      "reference": 41,
+      "round": 5,
+      "home": "Flamengo",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 42,
+      "round": 5,
+      "home": "Vasco",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 43,
+      "round": 5,
+      "home": "São Paulo",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 44,
+      "round": 5,
+      "home": "Corinthians",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 45,
+      "round": 5,
+      "home": "Mirassol",
+      "away": "Santos"
+    },
+    {
+      "reference": 46,
+      "round": 5,
+      "home": "Atlético-MG",
+      "away": "Internacional"
+    },
+    {
+      "reference": 47,
+      "round": 5,
+      "home": "Grêmio",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 48,
+      "round": 5,
+      "home": "Athletico-PR",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 49,
+      "round": 5,
+      "home": "Bahia",
+      "away": "Vitória"
+    },
+    {
+      "reference": 50,
+      "round": 5,
+      "home": "Remo",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 51,
+      "round": 6,
+      "home": "Fluminense",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 52,
+      "round": 6,
+      "home": "Botafogo",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 53,
+      "round": 6,
+      "home": "Santos",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 54,
+      "round": 6,
+      "home": "Palmeiras",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 55,
+      "round": 6,
+      "home": "Bragantino",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 56,
+      "round": 6,
+      "home": "Cruzeiro",
+      "away": "Vasco"
+    },
+    {
+      "reference": 57,
+      "round": 6,
+      "home": "Internacional",
+      "away": "Bahia"
+    },
+    {
+      "reference": 58,
+      "round": 6,
+      "home": "Coritiba",
+      "away": "Remo"
+    },
+    {
+      "reference": 59,
+      "round": 6,
+      "home": "Vitória",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 60,
+      "round": 6,
+      "home": "Chapecoense",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 61,
+      "round": 7,
+      "home": "Flamengo",
+      "away": "Remo"
+    },
+    {
+      "reference": 62,
+      "round": 7,
+      "home": "Vasco",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 63,
+      "round": 7,
+      "home": "Santos",
+      "away": "Internacional"
+    },
+    {
+      "reference": 64,
+      "round": 7,
+      "home": "Palmeiras",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 65,
+      "round": 7,
+      "home": "Mirassol",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 66,
+      "round": 7,
+      "home": "Atlético-MG",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 67,
+      "round": 7,
+      "home": "Grêmio",
+      "away": "Vitória"
+    },
+    {
+      "reference": 68,
+      "round": 7,
+      "home": "Athletico-PR",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 69,
+      "round": 7,
+      "home": "Bahia",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 70,
+      "round": 7,
+      "home": "Chapecoense",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 71,
+      "round": 8,
+      "home": "Fluminense",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 72,
+      "round": 8,
+      "home": "Vasco",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 73,
+      "round": 8,
+      "home": "São Paulo",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 74,
+      "round": 8,
+      "home": "Corinthians",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 75,
+      "round": 8,
+      "home": "Bragantino",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 76,
+      "round": 8,
+      "home": "Cruzeiro",
+      "away": "Santos"
+    },
+    {
+      "reference": 77,
+      "round": 8,
+      "home": "Internacional",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 78,
+      "round": 8,
+      "home": "Athletico-PR",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 79,
+      "round": 8,
+      "home": "Vitória",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 80,
+      "round": 8,
+      "home": "Remo",
+      "away": "Bahia"
+    },
+    {
+      "reference": 81,
+      "round": 9,
+      "home": "Fluminense",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 82,
+      "round": 9,
+      "home": "Botafogo",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 83,
+      "round": 9,
+      "home": "Santos",
+      "away": "Remo"
+    },
+    {
+      "reference": 84,
+      "round": 9,
+      "home": "Palmeiras",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 85,
+      "round": 9,
+      "home": "Bragantino",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 86,
+      "round": 9,
+      "home": "Cruzeiro",
+      "away": "Vitória"
+    },
+    {
+      "reference": 87,
+      "round": 9,
+      "home": "Internacional",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 88,
+      "round": 9,
+      "home": "Coritiba",
+      "away": "Vasco"
+    },
+    {
+      "reference": 89,
+      "round": 9,
+      "home": "Bahia",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 90,
+      "round": 9,
+      "home": "Chapecoense",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 91,
+      "round": 10,
+      "home": "Flamengo",
+      "away": "Santos"
+    },
+    {
+      "reference": 92,
+      "round": 10,
+      "home": "Vasco",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 93,
+      "round": 10,
+      "home": "São Paulo",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 94,
+      "round": 10,
+      "home": "Corinthians",
+      "away": "Internacional"
+    },
+    {
+      "reference": 95,
+      "round": 10,
+      "home": "Mirassol",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 96,
+      "round": 10,
+      "home": "Atlético-MG",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 97,
+      "round": 10,
+      "home": "Grêmio",
+      "away": "Remo"
+    },
+    {
+      "reference": 98,
+      "round": 10,
+      "home": "Coritiba",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 99,
+      "round": 10,
+      "home": "Bahia",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 100,
+      "round": 10,
+      "home": "Chapecoense",
+      "away": "Vitória"
+    },
+    {
+      "reference": 101,
+      "round": 11,
+      "home": "Fluminense",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 102,
+      "round": 11,
+      "home": "Botafogo",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 103,
+      "round": 11,
+      "home": "Santos",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 104,
+      "round": 11,
+      "home": "Corinthians",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 105,
+      "round": 11,
+      "home": "Mirassol",
+      "away": "Bahia"
+    },
+    {
+      "reference": 106,
+      "round": 11,
+      "home": "Cruzeiro",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 107,
+      "round": 11,
+      "home": "Internacional",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 108,
+      "round": 11,
+      "home": "Athletico-PR",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 109,
+      "round": 11,
+      "home": "Vitória",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 110,
+      "round": 11,
+      "home": "Remo",
+      "away": "Vasco"
+    },
+    {
+      "reference": 111,
+      "round": 12,
+      "home": "Flamengo",
+      "away": "Bahia"
+    },
+    {
+      "reference": 112,
+      "round": 12,
+      "home": "Vasco",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 113,
+      "round": 12,
+      "home": "Santos",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 114,
+      "round": 12,
+      "home": "Palmeiras",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 115,
+      "round": 12,
+      "home": "Bragantino",
+      "away": "Remo"
+    },
+    {
+      "reference": 116,
+      "round": 12,
+      "home": "Cruzeiro",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 117,
+      "round": 12,
+      "home": "Internacional",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 118,
+      "round": 12,
+      "home": "Coritiba",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 119,
+      "round": 12,
+      "home": "Vitória",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 120,
+      "round": 12,
+      "home": "Chapecoense",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 121,
+      "round": 13,
+      "home": "Fluminense",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 122,
+      "round": 13,
+      "home": "Botafogo",
+      "away": "Internacional"
+    },
+    {
+      "reference": 123,
+      "round": 13,
+      "home": "São Paulo",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 124,
+      "round": 13,
+      "home": "Corinthians",
+      "away": "Vasco"
+    },
+    {
+      "reference": 125,
+      "round": 13,
+      "home": "Bragantino",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 126,
+      "round": 13,
+      "home": "Atlético-MG",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 127,
+      "round": 13,
+      "home": "Grêmio",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 128,
+      "round": 13,
+      "home": "Athletico-PR",
+      "away": "Vitória"
+    },
+    {
+      "reference": 129,
+      "round": 13,
+      "home": "Bahia",
+      "away": "Santos"
+    },
+    {
+      "reference": 130,
+      "round": 13,
+      "home": "Remo",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 131,
+      "round": 14,
+      "home": "Flamengo",
+      "away": "Vasco"
+    },
+    {
+      "reference": 132,
+      "round": 14,
+      "home": "Botafogo",
+      "away": "Remo"
+    },
+    {
+      "reference": 133,
+      "round": 14,
+      "home": "São Paulo",
+      "away": "Bahia"
+    },
+    {
+      "reference": 134,
+      "round": 14,
+      "home": "Palmeiras",
+      "away": "Santos"
+    },
+    {
+      "reference": 135,
+      "round": 14,
+      "home": "Mirassol",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 136,
+      "round": 14,
+      "home": "Cruzeiro",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 137,
+      "round": 14,
+      "home": "Internacional",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 138,
+      "round": 14,
+      "home": "Athletico-PR",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 139,
+      "round": 14,
+      "home": "Vitória",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 140,
+      "round": 14,
+      "home": "Chapecoense",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 141,
+      "round": 15,
+      "home": "Fluminense",
+      "away": "Vitória"
+    },
+    {
+      "reference": 142,
+      "round": 15,
+      "home": "Vasco",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 143,
+      "round": 15,
+      "home": "Santos",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 144,
+      "round": 15,
+      "home": "Corinthians",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 145,
+      "round": 15,
+      "home": "Mirassol",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 146,
+      "round": 15,
+      "home": "Atlético-MG",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 147,
+      "round": 15,
+      "home": "Grêmio",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 148,
+      "round": 15,
+      "home": "Coritiba",
+      "away": "Internacional"
+    },
+    {
+      "reference": 149,
+      "round": 15,
+      "home": "Bahia",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 150,
+      "round": 15,
+      "home": "Remo",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 151,
+      "round": 16,
+      "home": "Fluminense",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 152,
+      "round": 16,
+      "home": "Botafogo",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 153,
+      "round": 16,
+      "home": "Santos",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 154,
+      "round": 16,
+      "home": "Palmeiras",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 155,
+      "round": 16,
+      "home": "Bragantino",
+      "away": "Vitória"
+    },
+    {
+      "reference": 156,
+      "round": 16,
+      "home": "Atlético-MG",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 157,
+      "round": 16,
+      "home": "Internacional",
+      "away": "Vasco"
+    },
+    {
+      "reference": 158,
+      "round": 16,
+      "home": "Athletico-PR",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 159,
+      "round": 16,
+      "home": "Bahia",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 160,
+      "round": 16,
+      "home": "Chapecoense",
+      "away": "Remo"
+    },
+    {
+      "reference": 161,
+      "round": 17,
+      "home": "Flamengo",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 162,
+      "round": 17,
+      "home": "Vasco",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 163,
+      "round": 17,
+      "home": "São Paulo",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 164,
+      "round": 17,
+      "home": "Corinthians",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 165,
+      "round": 17,
+      "home": "Mirassol",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 166,
+      "round": 17,
+      "home": "Cruzeiro",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 167,
+      "round": 17,
+      "home": "Grêmio",
+      "away": "Santos"
+    },
+    {
+      "reference": 168,
+      "round": 17,
+      "home": "Coritiba",
+      "away": "Bahia"
+    },
+    {
+      "reference": 169,
+      "round": 17,
+      "home": "Vitória",
+      "away": "Internacional"
+    },
+    {
+      "reference": 170,
+      "round": 17,
+      "home": "Remo",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 171,
+      "round": 18,
+      "home": "Flamengo",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 172,
+      "round": 18,
+      "home": "Vasco",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 173,
+      "round": 18,
+      "home": "Santos",
+      "away": "Vitória"
+    },
+    {
+      "reference": 174,
+      "round": 18,
+      "home": "Palmeiras",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 175,
+      "round": 18,
+      "home": "Bragantino",
+      "away": "Internacional"
+    },
+    {
+      "reference": 176,
+      "round": 18,
+      "home": "Cruzeiro",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 177,
+      "round": 18,
+      "home": "Grêmio",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 178,
+      "round": 18,
+      "home": "Athletico-PR",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 179,
+      "round": 18,
+      "home": "Bahia",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 180,
+      "round": 18,
+      "home": "Remo",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 181,
+      "round": 19,
+      "home": "Fluminense",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 182,
+      "round": 19,
+      "home": "Botafogo",
+      "away": "Santos"
+    },
+    {
+      "reference": 183,
+      "round": 19,
+      "home": "São Paulo",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 184,
+      "round": 19,
+      "home": "Corinthians",
+      "away": "Remo"
+    },
+    {
+      "reference": 185,
+      "round": 19,
+      "home": "Mirassol",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 186,
+      "round": 19,
+      "home": "Atlético-MG",
+      "away": "Bahia"
+    },
+    {
+      "reference": 187,
+      "round": 19,
+      "home": "Internacional",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 188,
+      "round": 19,
+      "home": "Coritiba",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 189,
+      "round": 19,
+      "home": "Vitória",
+      "away": "Vasco"
+    },
+    {
+      "reference": 190,
+      "round": 19,
+      "home": "Chapecoense",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 191,
+      "round": 20,
+      "home": "Flamengo",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 192,
+      "round": 20,
+      "home": "Vasco",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 193,
+      "round": 20,
+      "home": "Santos",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 194,
+      "round": 20,
+      "home": "Palmeiras",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 195,
+      "round": 20,
+      "home": "Bragantino",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 196,
+      "round": 20,
+      "home": "Cruzeiro",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 197,
+      "round": 20,
+      "home": "Grêmio",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 198,
+      "round": 20,
+      "home": "Athletico-PR",
+      "away": "Internacional"
+    },
+    {
+      "reference": 199,
+      "round": 20,
+      "home": "Bahia",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 200,
+      "round": 20,
+      "home": "Remo",
+      "away": "Vitória"
+    },
+    {
+      "reference": 201,
+      "round": 21,
+      "home": "Fluminense",
+      "away": "Bahia"
+    },
+    {
+      "reference": 202,
+      "round": 21,
+      "home": "Botafogo",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 203,
+      "round": 21,
+      "home": "São Paulo",
+      "away": "Santos"
+    },
+    {
+      "reference": 204,
+      "round": 21,
+      "home": "Corinthians",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 205,
+      "round": 21,
+      "home": "Mirassol",
+      "away": "Remo"
+    },
+    {
+      "reference": 206,
+      "round": 21,
+      "home": "Atlético-MG",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 207,
+      "round": 21,
+      "home": "Internacional",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 208,
+      "round": 21,
+      "home": "Coritiba",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 209,
+      "round": 21,
+      "home": "Vitória",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 210,
+      "round": 21,
+      "home": "Chapecoense",
+      "away": "Vasco"
+    },
+    {
+      "reference": 211,
+      "round": 22,
+      "home": "Flamengo",
+      "away": "Vitória"
+    },
+    {
+      "reference": 212,
+      "round": 22,
+      "home": "Botafogo",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 213,
+      "round": 22,
+      "home": "Santos",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 214,
+      "round": 22,
+      "home": "Palmeiras",
+      "away": "Internacional"
+    },
+    {
+      "reference": 215,
+      "round": 22,
+      "home": "Bragantino",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 216,
+      "round": 22,
+      "home": "Cruzeiro",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 217,
+      "round": 22,
+      "home": "Grêmio",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 218,
+      "round": 22,
+      "home": "Coritiba",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 219,
+      "round": 22,
+      "home": "Bahia",
+      "away": "Vasco"
+    },
+    {
+      "reference": 220,
+      "round": 22,
+      "home": "Remo",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 221,
+      "round": 23,
+      "home": "Fluminense",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 222,
+      "round": 23,
+      "home": "Vasco",
+      "away": "Santos"
+    },
+    {
+      "reference": 223,
+      "round": 23,
+      "home": "São Paulo",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 224,
+      "round": 23,
+      "home": "Corinthians",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 225,
+      "round": 23,
+      "home": "Mirassol",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 226,
+      "round": 23,
+      "home": "Atlético-MG",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 227,
+      "round": 23,
+      "home": "Internacional",
+      "away": "Remo"
+    },
+    {
+      "reference": 228,
+      "round": 23,
+      "home": "Athletico-PR",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 229,
+      "round": 23,
+      "home": "Vitória",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 230,
+      "round": 23,
+      "home": "Chapecoense",
+      "away": "Bahia"
+    },
+    {
+      "reference": 231,
+      "round": 24,
+      "home": "Fluminense",
+      "away": "Remo"
+    },
+    {
+      "reference": 232,
+      "round": 24,
+      "home": "Botafogo",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 233,
+      "round": 24,
+      "home": "Santos",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 234,
+      "round": 24,
+      "home": "Palmeiras",
+      "away": "Vasco"
+    },
+    {
+      "reference": 235,
+      "round": 24,
+      "home": "Bragantino",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 236,
+      "round": 24,
+      "home": "Cruzeiro",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 237,
+      "round": 24,
+      "home": "Internacional",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 238,
+      "round": 24,
+      "home": "Coritiba",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 239,
+      "round": 24,
+      "home": "Vitória",
+      "away": "Bahia"
+    },
+    {
+      "reference": 240,
+      "round": 24,
+      "home": "Chapecoense",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 241,
+      "round": 25,
+      "home": "Flamengo",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 242,
+      "round": 25,
+      "home": "Vasco",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 243,
+      "round": 25,
+      "home": "São Paulo",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 244,
+      "round": 25,
+      "home": "Corinthians",
+      "away": "Santos"
+    },
+    {
+      "reference": 245,
+      "round": 25,
+      "home": "Mirassol",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 246,
+      "round": 25,
+      "home": "Atlético-MG",
+      "away": "Vitória"
+    },
+    {
+      "reference": 247,
+      "round": 25,
+      "home": "Grêmio",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 248,
+      "round": 25,
+      "home": "Athletico-PR",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 249,
+      "round": 25,
+      "home": "Bahia",
+      "away": "Internacional"
+    },
+    {
+      "reference": 250,
+      "round": 25,
+      "home": "Remo",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 251,
+      "round": 26,
+      "home": "Fluminense",
+      "away": "Vasco"
+    },
+    {
+      "reference": 252,
+      "round": 26,
+      "home": "Botafogo",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 253,
+      "round": 26,
+      "home": "São Paulo",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 254,
+      "round": 26,
+      "home": "Corinthians",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 255,
+      "round": 26,
+      "home": "Bragantino",
+      "away": "Bahia"
+    },
+    {
+      "reference": 256,
+      "round": 26,
+      "home": "Cruzeiro",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 257,
+      "round": 26,
+      "home": "Internacional",
+      "away": "Santos"
+    },
+    {
+      "reference": 258,
+      "round": 26,
+      "home": "Coritiba",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 259,
+      "round": 26,
+      "home": "Vitória",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 260,
+      "round": 26,
+      "home": "Remo",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 261,
+      "round": 27,
+      "home": "Flamengo",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 262,
+      "round": 27,
+      "home": "Botafogo",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 263,
+      "round": 27,
+      "home": "Santos",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 264,
+      "round": 27,
+      "home": "Palmeiras",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 265,
+      "round": 27,
+      "home": "Mirassol",
+      "away": "Vitória"
+    },
+    {
+      "reference": 266,
+      "round": 27,
+      "home": "Atlético-MG",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 267,
+      "round": 27,
+      "home": "Grêmio",
+      "away": "Vasco"
+    },
+    {
+      "reference": 268,
+      "round": 27,
+      "home": "Coritiba",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 269,
+      "round": 27,
+      "home": "Bahia",
+      "away": "Remo"
+    },
+    {
+      "reference": 270,
+      "round": 27,
+      "home": "Chapecoense",
+      "away": "Internacional"
+    },
+    {
+      "reference": 271,
+      "round": 28,
+      "home": "Flamengo",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 272,
+      "round": 28,
+      "home": "Vasco",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 273,
+      "round": 28,
+      "home": "São Paulo",
+      "away": "Internacional"
+    },
+    {
+      "reference": 274,
+      "round": 28,
+      "home": "Corinthians",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 275,
+      "round": 28,
+      "home": "Mirassol",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 276,
+      "round": 28,
+      "home": "Atlético-MG",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 277,
+      "round": 28,
+      "home": "Grêmio",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 278,
+      "round": 28,
+      "home": "Athletico-PR",
+      "away": "Bahia"
+    },
+    {
+      "reference": 279,
+      "round": 28,
+      "home": "Vitória",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 280,
+      "round": 28,
+      "home": "Remo",
+      "away": "Santos"
+    },
+    {
+      "reference": 281,
+      "round": 29,
+      "home": "Fluminense",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 282,
+      "round": 29,
+      "home": "Botafogo",
+      "away": "Vasco"
+    },
+    {
+      "reference": 283,
+      "round": 29,
+      "home": "Santos",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 284,
+      "round": 29,
+      "home": "Palmeiras",
+      "away": "Bahia"
+    },
+    {
+      "reference": 285,
+      "round": 29,
+      "home": "Bragantino",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 286,
+      "round": 29,
+      "home": "Cruzeiro",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 287,
+      "round": 29,
+      "home": "Internacional",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 288,
+      "round": 29,
+      "home": "Athletico-PR",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 289,
+      "round": 29,
+      "home": "Vitória",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 290,
+      "round": 29,
+      "home": "Remo",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 291,
+      "round": 30,
+      "home": "Flamengo",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 292,
+      "round": 30,
+      "home": "Vasco",
+      "away": "Remo"
+    },
+    {
+      "reference": 293,
+      "round": 30,
+      "home": "São Paulo",
+      "away": "Vitória"
+    },
+    {
+      "reference": 294,
+      "round": 30,
+      "home": "Palmeiras",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 295,
+      "round": 30,
+      "home": "Bragantino",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 296,
+      "round": 30,
+      "home": "Atlético-MG",
+      "away": "Santos"
+    },
+    {
+      "reference": 297,
+      "round": 30,
+      "home": "Grêmio",
+      "away": "Internacional"
+    },
+    {
+      "reference": 298,
+      "round": 30,
+      "home": "Coritiba",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 299,
+      "round": 30,
+      "home": "Bahia",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 300,
+      "round": 30,
+      "home": "Chapecoense",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 301,
+      "round": 31,
+      "home": "Fluminense",
+      "away": "Santos"
+    },
+    {
+      "reference": 302,
+      "round": 31,
+      "home": "Botafogo",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 303,
+      "round": 31,
+      "home": "São Paulo",
+      "away": "Vasco"
+    },
+    {
+      "reference": 304,
+      "round": 31,
+      "home": "Corinthians",
+      "away": "Vitória"
+    },
+    {
+      "reference": 305,
+      "round": 31,
+      "home": "Mirassol",
+      "away": "Internacional"
+    },
+    {
+      "reference": 306,
+      "round": 31,
+      "home": "Atlético-MG",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 307,
+      "round": 31,
+      "home": "Grêmio",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 308,
+      "round": 31,
+      "home": "Athletico-PR",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 309,
+      "round": 31,
+      "home": "Bahia",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 310,
+      "round": 31,
+      "home": "Remo",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 311,
+      "round": 32,
+      "home": "Flamengo",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 312,
+      "round": 32,
+      "home": "Vasco",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 313,
+      "round": 32,
+      "home": "Santos",
+      "away": "Bahia"
+    },
+    {
+      "reference": 314,
+      "round": 32,
+      "home": "Palmeiras",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 315,
+      "round": 32,
+      "home": "Mirassol",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 316,
+      "round": 32,
+      "home": "Cruzeiro",
+      "away": "Remo"
+    },
+    {
+      "reference": 317,
+      "round": 32,
+      "home": "Internacional",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 318,
+      "round": 32,
+      "home": "Coritiba",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 319,
+      "round": 32,
+      "home": "Vitória",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 320,
+      "round": 32,
+      "home": "Chapecoense",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 321,
+      "round": 33,
+      "home": "Fluminense",
+      "away": "Internacional"
+    },
+    {
+      "reference": 322,
+      "round": 33,
+      "home": "Vasco",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 323,
+      "round": 33,
+      "home": "Santos",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 324,
+      "round": 33,
+      "home": "Corinthians",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 325,
+      "round": 33,
+      "home": "Bragantino",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 326,
+      "round": 33,
+      "home": "Atlético-MG",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 327,
+      "round": 33,
+      "home": "Grêmio",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 328,
+      "round": 33,
+      "home": "Coritiba",
+      "away": "Vitória"
+    },
+    {
+      "reference": 329,
+      "round": 33,
+      "home": "Bahia",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 330,
+      "round": 34,
+      "home": "Remo",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 331,
+      "round": 34,
+      "home": "Flamengo",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 332,
+      "round": 34,
+      "home": "Botafogo",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 333,
+      "round": 34,
+      "home": "São Paulo",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 334,
+      "round": 34,
+      "home": "Palmeiras",
+      "away": "Remo"
+    },
+    {
+      "reference": 335,
+      "round": 34,
+      "home": "Bragantino",
+      "away": "Santos"
+    },
+    {
+      "reference": 336,
+      "round": 34,
+      "home": "Cruzeiro",
+      "away": "Bahia"
+    },
+    {
+      "reference": 337,
+      "round": 34,
+      "home": "Internacional",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 338,
+      "round": 34,
+      "home": "Athletico-PR",
+      "away": "Vasco"
+    },
+    {
+      "reference": 339,
+      "round": 34,
+      "home": "Vitória",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 340,
+      "round": 34,
+      "home": "Chapecoense",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 341,
+      "round": 35,
+      "home": "Flamengo",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 342,
+      "round": 35,
+      "home": "Vasco",
+      "away": "Internacional"
+    },
+    {
+      "reference": 343,
+      "round": 35,
+      "home": "São Paulo",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 344,
+      "round": 35,
+      "home": "Corinthians",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 345,
+      "round": 35,
+      "home": "Mirassol",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 346,
+      "round": 35,
+      "home": "Cruzeiro",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 347,
+      "round": 35,
+      "home": "Grêmio",
+      "away": "Bahia"
+    },
+    {
+      "reference": 348,
+      "round": 35,
+      "home": "Coritiba",
+      "away": "Santos"
+    },
+    {
+      "reference": 349,
+      "round": 35,
+      "home": "Vitória",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 350,
+      "round": 35,
+      "home": "Remo",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 351,
+      "round": 36,
+      "home": "Fluminense",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 352,
+      "round": 36,
+      "home": "Botafogo",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 353,
+      "round": 36,
+      "home": "Santos",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 354,
+      "round": 36,
+      "home": "Palmeiras",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 355,
+      "round": 36,
+      "home": "Bragantino",
+      "away": "Vasco"
+    },
+    {
+      "reference": 356,
+      "round": 36,
+      "home": "Atlético-MG",
+      "away": "Corinthians"
+    },
+    {
+      "reference": 357,
+      "round": 36,
+      "home": "Internacional",
+      "away": "Vitória"
+    },
+    {
+      "reference": 358,
+      "round": 36,
+      "home": "Athletico-PR",
+      "away": "Remo"
+    },
+    {
+      "reference": 359,
+      "round": 36,
+      "home": "Bahia",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 360,
+      "round": 36,
+      "home": "Chapecoense",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 361,
+      "round": 37,
+      "home": "Fluminense",
+      "away": "Cruzeiro"
+    },
+    {
+      "reference": 362,
+      "round": 37,
+      "home": "Botafogo",
+      "away": "Bahia"
+    },
+    {
+      "reference": 363,
+      "round": 37,
+      "home": "São Paulo",
+      "away": "Remo"
+    },
+    {
+      "reference": 364,
+      "round": 37,
+      "home": "Corinthians",
+      "away": "Grêmio"
+    },
+    {
+      "reference": 365,
+      "round": 37,
+      "home": "Mirassol",
+      "away": "Athletico-PR"
+    },
+    {
+      "reference": 366,
+      "round": 37,
+      "home": "Atlético-MG",
+      "away": "Vasco"
+    },
+    {
+      "reference": 367,
+      "round": 37,
+      "home": "Internacional",
+      "away": "Bragantino"
+    },
+    {
+      "reference": 368,
+      "round": 37,
+      "home": "Coritiba",
+      "away": "Flamengo"
+    },
+    {
+      "reference": 369,
+      "round": 37,
+      "home": "Vitória",
+      "away": "Santos"
+    },
+    {
+      "reference": 370,
+      "round": 37,
+      "home": "Chapecoense",
+      "away": "Palmeiras"
+    },
+    {
+      "reference": 371,
+      "round": 38,
+      "home": "Flamengo",
+      "away": "Chapecoense"
+    },
+    {
+      "reference": 372,
+      "round": 38,
+      "home": "Vasco",
+      "away": "Vitória"
+    },
+    {
+      "reference": 373,
+      "round": 38,
+      "home": "Santos",
+      "away": "Botafogo"
+    },
+    {
+      "reference": 374,
+      "round": 38,
+      "home": "Palmeiras",
+      "away": "Coritiba"
+    },
+    {
+      "reference": 375,
+      "round": 38,
+      "home": "Bragantino",
+      "away": "Fluminense"
+    },
+    {
+      "reference": 376,
+      "round": 38,
+      "home": "Cruzeiro",
+      "away": "Internacional"
+    },
+    {
+      "reference": 377,
+      "round": 38,
+      "home": "Grêmio",
+      "away": "Mirassol"
+    },
+    {
+      "reference": 378,
+      "round": 38,
+      "home": "Athletico-PR",
+      "away": "São Paulo"
+    },
+    {
+      "reference": 379,
+      "round": 38,
+      "home": "Bahia",
+      "away": "Atlético-MG"
+    },
+    {
+      "reference": 380,
+      "round": 38,
+      "home": "Remo",
+      "away": "Corinthians"
+    }
+  ]
+}
