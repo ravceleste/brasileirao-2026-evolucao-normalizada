@@ -170,6 +170,7 @@ svg {
     overscroll-behavior-x:contain;
     touch-action:pan-x pan-y;
   }
+  svg { min-width:0; }
   .chart-scroll-hint {
     display:block;
     padding:11px 13px 0;
@@ -212,7 +213,7 @@ svg {
   </div>
 
   <div class="chart-card">
-    <div class="chart-scroll-hint">Deslize o gráfico para os lados para ver os jogos e os rótulos finais.</div>
+    <div class="chart-scroll-hint">Todos os jogos aparecem juntos. Toque em uma linha para destacar o time.</div>
     <div class="chart-scroll" id="chartWrap">
       <svg id="chart" viewBox="0 0 1450 830" role="img" aria-label="Evolução normalizada do Campeonato Brasileiro 2026"></svg>
       <div class="tooltip" id="tooltip"></div>
@@ -237,12 +238,17 @@ const select = document.getElementById("teamSelect");
 const allBtn = document.getElementById("allBtn");
 
 const NS = "http://www.w3.org/2000/svg";
-const W = 1450, H = 830;
-const M = {left:74, top:42, right:305, bottom:72};
+const isCompact = window.matchMedia("(max-width: 600px)").matches;
+const W = isCompact ? Math.max(340, wrap.clientWidth) : 1450;
+const H = isCompact ? 720 : 830;
+const M = isCompact
+  ? {left:46, top:42, right:104, bottom:68}
+  : {left:74, top:42, right:305, bottom:72};
+svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
 const plotW = W - M.left - M.right;
 const plotH = H - M.top - M.bottom;
-const labelX = W - 208;
-const logoX = W - 244;
+const labelX = W - (isCompact ? 77 : 208);
+const logoX = W - (isCompact ? 108 : 244);
 
 let lockedTeam = DATA.defaultTeam;
 let hoverTeam = null;
@@ -290,13 +296,16 @@ for (let y = Math.ceil(yMin/5)*5; y <= yMax; y += 5) {
 
 for (let x=0; x<=DATA.maxGames; x++) {
   const px = xScale(x);
-  const major = x===0 || x%2===0 || x===DATA.maxGames;
+  const labelEvery = isCompact ? 5 : 1;
+  const major = x===0 || x%(isCompact ? 5 : 2)===0 || x===DATA.maxGames;
   el("line", {
     x1:px,y1:M.top,x2:px,y2:M.top+plotH,
     stroke: major ? "#edf0f3" : "#f6f7f9",
     "stroke-width": major ? 1 : .7
   });
-  text(px, M.top+plotH+24, x, {"text-anchor":"middle",fill:x===0?"#101828":"#667085","font-size":10.5,"font-weight":x===0?700:400});
+  if (x % labelEvery === 0 || x === DATA.maxGames) {
+    text(px, M.top+plotH+24, x, {"text-anchor":"middle",fill:x===0?"#101828":"#667085","font-size":isCompact?10:10.5,"font-weight":x===0?700:400});
+  }
 }
 
 // Eixos
@@ -388,7 +397,7 @@ for (const name of DATA.ranking.slice().reverse()) {
   const ly = labelY[name];
   const connector = el("line", {
     x1:xScale(last.game)+5, y1:yScale(last.norm),
-    x2:logoX-20, y2:ly,
+    x2:logoX-(isCompact?14:20), y2:ly,
     stroke:t.color,"stroke-width":.9,opacity:.48,
     class:"connector"
   }, g);
@@ -401,7 +410,9 @@ for (const name of DATA.ranking.slice().reverse()) {
 
   // logo
   const img = el("image", {
-    href:t.logo,x:logoX-17,y:ly-17,width:34,height:34,
+    href:t.logo,
+    x:logoX-(isCompact?11:17),y:ly-(isCompact?11:17),
+    width:isCompact?22:34,height:isCompact?22:34,
     preserveAspectRatio:"xMidYMid meet",
     style:"cursor:pointer"
   }, g);
@@ -411,10 +422,10 @@ for (const name of DATA.ranking.slice().reverse()) {
 
   // label
   const lbl = text(labelX, ly-2, `${t.abbr}  ${t.officialPoints} pts`, {
-    fill:t.color,"font-size":12.5,"font-weight":800,style:"cursor:pointer"
+    fill:t.color,"font-size":isCompact?9:12.5,"font-weight":800,style:"cursor:pointer"
   }, g);
   const sub = text(labelX, ly+12, `${t.games}J · índice ${t.finalNorm >= 0 ? "+" : ""}${t.finalNorm}`, {
-    fill:"#667085","font-size":9.5,style:"cursor:pointer"
+    fill:"#667085","font-size":isCompact?7.5:9.5,style:"cursor:pointer"
   }, g);
   [lbl,sub].forEach(node => {
     node.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
