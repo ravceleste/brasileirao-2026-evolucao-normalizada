@@ -133,9 +133,11 @@ svg {
   margin-left:auto;
 }
 .chart-scroll-hint { display:none; }
+.compact-team-list { display:none; }
 @media (max-width:900px) {
   svg { min-width:0; }
   .chart-scroll {
+    overflow:hidden;
     -webkit-overflow-scrolling:touch;
     overscroll-behavior-x:contain;
   }
@@ -146,6 +148,38 @@ svg {
     font-size:12px;
     line-height:1.4;
   }
+  .compact-team-list {
+    display:block;
+    padding:10px 12px;
+    border-top:1px solid #f0f1f3;
+  }
+  .compact-team-grid {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:3px 7px;
+  }
+  .compact-team-item {
+    display:flex;
+    align-items:center;
+    gap:7px;
+    width:100%;
+    min-width:0;
+    min-height:40px;
+    padding:4px 6px;
+    border:1px solid transparent;
+    border-radius:8px;
+    background:transparent;
+    color:var(--text);
+    text-align:left;
+  }
+  .compact-team-item.selected { border-color:var(--border); background:#f9fafb; }
+  .compact-team-item img { width:22px; height:22px; object-fit:contain; flex:none; }
+  .compact-team-copy { min-width:0; line-height:1.25; }
+  .compact-team-main { display:block; font-size:11px; font-weight:750; white-space:nowrap; }
+  .compact-team-sub { display:block; color:var(--muted); font-size:9px; white-space:nowrap; }
+}
+@media (max-width:900px) and (orientation:landscape) {
+  .compact-team-grid { grid-template-columns:repeat(4,minmax(0,1fr)); }
 }
 @media (max-width:800px) {
   .page { padding:18px 10px 26px; }
@@ -219,15 +253,18 @@ svg {
   </div>
 
   <div class="chart-card">
-    <div class="chart-scroll-hint">Todos os jogos aparecem juntos. Toque em uma linha para destacar o time.</div>
+    <div class="chart-scroll-hint">O gráfico se ajusta à tela. A lista para selecionar clubes fica abaixo.</div>
     <div class="chart-scroll" id="chartWrap">
       <svg id="chart" viewBox="0 0 1450 830" role="img" aria-label="Evolução normalizada do Campeonato Brasileiro 2026"></svg>
       <div class="tooltip" id="tooltip"></div>
     </div>
+    <div class="compact-team-list" id="compactTeamList" aria-label="Clubes e valores finais">
+      <div class="compact-team-grid" id="compactTeamGrid"></div>
+    </div>
     <div class="footer-note">
       <strong>Índice normalizado = pontos acumulados − jogos disputados.</strong>
       Por isso todos começam em 0, e uma vitória acrescenta 2, um empate não altera o índice e uma derrota reduz 1.
-      Os rótulos à direita mostram os <strong>pontos oficiais</strong> e o número de jogos disputados.
+      Os rótulos à direita (ou a lista no celular) mostram os <strong>pontos oficiais</strong>, jogos e índice final.
       Times com jogo a menos simplesmente terminam antes no eixo X — não há segmento fictício.
     </div>
   </div>
@@ -242,24 +279,26 @@ const wrap = document.getElementById("chartWrap");
 const tooltip = document.getElementById("tooltip");
 const select = document.getElementById("teamSelect");
 const allBtn = document.getElementById("allBtn");
+const compactTeamGrid = document.getElementById("compactTeamGrid");
 
 const NS = "http://www.w3.org/2000/svg";
 const isCompact = window.matchMedia("(max-width: 900px)").matches;
-const isNarrow = window.matchMedia("(max-width: 600px)").matches;
-const W = isCompact ? Math.max(340, wrap.clientWidth) : 1450;
-const H = isCompact ? (isNarrow ? 720 : 670) : 830;
+const W = isCompact ? Math.max(300, wrap.clientWidth) : 1450;
+const H = isCompact ? Math.max(220, Math.min(300, Math.round(W * 0.72))) : 830;
 const M = isCompact
-  ? (isNarrow
-    ? {left:46, top:42, right:104, bottom:68}
-    : {left:58, top:42, right:132, bottom:68})
+  ? {left:42, top:24, right:20, bottom:48}
   : {left:74, top:42, right:305, bottom:72};
 svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
 const plotW = W - M.left - M.right;
 const plotH = H - M.top - M.bottom;
-const labelX = W - (isCompact ? (isNarrow ? 77 : 96) : 208);
-const logoX = W - (isCompact ? (isNarrow ? 108 : 130) : 244);
+const labelX = W - 208;
+const logoX = W - 244;
 
 let lockedTeam = DATA.defaultTeam;
+try {
+  const savedTeam = sessionStorage.getItem("brasileirao-selected-team");
+  if (savedTeam && DATA.teams[savedTeam]) lockedTeam = savedTeam;
+} catch {}
 let hoverTeam = null;
 
 const allNorms = Object.values(DATA.teams).flatMap(t => t.points.map(p => p.norm));
@@ -299,8 +338,9 @@ el("rect", {x:0,y:0,width:W,height:H,fill:"#fff"});
 
 for (let y = Math.ceil(yMin/5)*5; y <= yMax; y += 5) {
   const py = yScale(y);
-  el("line", {x1:M.left,y1:py,x2:M.left+plotW,y2:py,stroke:"#e8ebf0","stroke-width":1});
-  text(M.left-12, py+4, y, {"text-anchor":"end",fill:"#667085","font-size":11});
+  const major = !isCompact || y % 10 === 0;
+  el("line", {x1:M.left,y1:py,x2:M.left+plotW,y2:py,stroke:major?"#e8ebf0":"#f2f4f7","stroke-width":major?1:.7});
+  if (major) text(M.left-8, py+3, y, {"text-anchor":"end",fill:"#667085","font-size":isCompact?9:11});
 }
 
 for (let x=0; x<=DATA.maxGames; x++) {
@@ -313,40 +353,42 @@ for (let x=0; x<=DATA.maxGames; x++) {
     "stroke-width": major ? 1 : .7
   });
   if (x % labelEvery === 0 || x === DATA.maxGames) {
-    text(px, M.top+plotH+24, x, {"text-anchor":"middle",fill:x===0?"#101828":"#667085","font-size":isCompact?10:10.5,"font-weight":x===0?700:400});
+    text(px, M.top+plotH+17, x, {"text-anchor":"middle",fill:x===0?"#101828":"#667085","font-size":isCompact?9:10.5,"font-weight":x===0?700:400});
   }
 }
 
 // Eixos
 el("line", {x1:M.left,y1:M.top+plotH,x2:M.left+plotW,y2:M.top+plotH,stroke:"#98a2b3","stroke-width":1});
 el("line", {x1:M.left,y1:M.top,x2:M.left,y2:M.top+plotH,stroke:"#98a2b3","stroke-width":1});
-text(M.left+plotW/2, H-20, "Número do jogo disputado pelo time", {"text-anchor":"middle",fill:"#475467","font-size":12.5,"font-weight":600});
-const yTitle = text(21, M.top+plotH/2, "Valor normalizado", {"text-anchor":"middle",fill:"#475467","font-size":12.5,"font-weight":600});
-yTitle.setAttribute("transform", `rotate(-90 21 ${M.top+plotH/2})`);
+text(M.left+plotW/2, H-8, isCompact?"Número do jogo":"Número do jogo disputado pelo time", {"text-anchor":"middle",fill:"#475467","font-size":isCompact?10:12.5,"font-weight":600});
+const yTitle = text(15, M.top+plotH/2, "Valor normalizado", {"text-anchor":"middle",fill:"#475467","font-size":isCompact?10:12.5,"font-weight":600});
+yTitle.setAttribute("transform", `rotate(-90 15 ${M.top+plotH/2})`);
 
 // Rodada 0 destacada
 el("line", {x1:xScale(0),y1:M.top,x2:xScale(0),y2:M.top+plotH,stroke:"#344054","stroke-width":1.5,"stroke-dasharray":"4 4","opacity":.55});
-text(xScale(0)+8, M.top+16, "rodada 0", {fill:"#344054","font-size":10.5,"font-weight":700});
+text(xScale(0)+5, M.top+11, "rodada 0", {fill:"#344054","font-size":isCompact?8:10.5,"font-weight":700});
 
 // Calcula posições dos labels sem colisão, mantendo ordem pelo índice final
-const endItems = Object.entries(DATA.teams)
+const endItems = (isCompact ? [] : Object.entries(DATA.teams)
   .map(([name,t]) => ({name, endY:yScale(t.finalNorm)}))
-  .sort((a,b) => a.endY-b.endY);
+  .sort((a,b) => a.endY-b.endY));
 
-const minGap = 28;
-for (let i=1;i<endItems.length;i++) {
-  if (endItems[i].endY - endItems[i-1].endY < minGap) {
-    endItems[i].endY = endItems[i-1].endY + minGap;
+const labelY = {};
+if (!isCompact) {
+  const minGap = 28;
+  for (let i=1;i<endItems.length;i++) {
+    if (endItems[i].endY - endItems[i-1].endY < minGap) {
+      endItems[i].endY = endItems[i-1].endY + minGap;
+    }
   }
+  const bottomLimit = M.top + plotH - 6;
+  let overflow = endItems[endItems.length-1].endY - bottomLimit;
+  if (overflow > 0) endItems.forEach(d => d.endY -= overflow);
+  const topLimit = M.top + 6;
+  let under = topLimit - endItems[0].endY;
+  if (under > 0) endItems.forEach(d => d.endY += under);
+  Object.assign(labelY, Object.fromEntries(endItems.map(d => [d.name,d.endY])));
 }
-const bottomLimit = M.top + plotH - 6;
-let overflow = endItems[endItems.length-1].endY - bottomLimit;
-if (overflow > 0) endItems.forEach(d => d.endY -= overflow);
-const topLimit = M.top + 6;
-let under = topLimit - endItems[0].endY;
-if (under > 0) endItems.forEach(d => d.endY += under);
-
-const labelY = Object.fromEntries(endItems.map(d => [d.name,d.endY]));
 
 // Grupos por time
 const teamGroups = {};
@@ -373,7 +415,7 @@ for (const name of DATA.ranking.slice().reverse()) {
   }, g);
   line.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
   line.addEventListener("mouseleave", () => {hoverTeam=null; updateStyles();});
-  line.addEventListener("click", () => {lockedTeam=name; select.value=name; updateStyles();});
+  line.addEventListener("click", () => lockTeam(name));
 
   // marcadores visíveis apenas quando o time está em destaque
   const markerGroup = el("g", {class:"markers"}, g);
@@ -396,51 +438,76 @@ for (const name of DATA.ranking.slice().reverse()) {
       hoverTeam=null; updateStyles(); hideTooltip();
     });
     hit.addEventListener("click", e => {
-      lockedTeam=name; select.value=name; updateStyles();
+      lockTeam(name);
       showTooltip(e,name,p);
     });
   });
 
-  // conector desde o último ponto real
   const last = t.points[t.points.length-1];
-  const ly = labelY[name];
-  const connector = el("line", {
-    x1:xScale(last.game)+5, y1:yScale(last.norm),
-    x2:logoX-(isCompact?(isNarrow?14:16):20), y2:ly,
-    stroke:t.color,"stroke-width":.9,opacity:.48,
-    class:"connector"
-  }, g);
-
-  // endpoint
   el("circle", {
     cx:xScale(last.game),cy:yScale(last.norm),r:3.5,
     fill:t.color,stroke:"#fff","stroke-width":1.2,class:"endpoint"
   }, g);
 
-  // logo
-  const img = el("image", {
-    href:t.logo,
-    x:logoX-(isCompact?(isNarrow?11:14):17),y:ly-(isCompact?(isNarrow?11:14):17),
-    width:isCompact?(isNarrow?22:28):34,height:isCompact?(isNarrow?22:28):34,
-    preserveAspectRatio:"xMidYMid meet",
-    style:"cursor:pointer"
-  }, g);
-  img.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
-  img.addEventListener("mouseleave", () => {hoverTeam=null; updateStyles();});
-  img.addEventListener("click", () => {lockedTeam=name; select.value=name; updateStyles();});
+  if (!isCompact) {
+    // Conector matemático do último ponto ao escudo e ao rótulo final.
+    const ly = labelY[name];
+    const connector = el("line", {
+      x1:xScale(last.game)+5, y1:yScale(last.norm),
+      x2:logoX-20, y2:ly,
+      stroke:t.color,"stroke-width":.9,opacity:.48,
+      class:"connector"
+    }, g);
 
-  // label
-  const lbl = text(labelX, ly-2, `${t.abbr}  ${t.officialPoints} pts`, {
-    fill:t.color,"font-size":isCompact?(isNarrow?9:11):12.5,"font-weight":800,style:"cursor:pointer"
-  }, g);
-  const sub = text(labelX, ly+12, `${t.games}J · índice ${t.finalNorm >= 0 ? "+" : ""}${t.finalNorm}`, {
-    fill:"#667085","font-size":isCompact?(isNarrow?7.5:8.5):9.5,style:"cursor:pointer"
-  }, g);
-  [lbl,sub].forEach(node => {
-    node.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
-    node.addEventListener("mouseleave", () => {hoverTeam=null; updateStyles();});
-    node.addEventListener("click", () => {lockedTeam=name; select.value=name; updateStyles();});
-  });
+    const img = el("image", {
+      href:t.logo,x:logoX-17,y:ly-17,width:34,height:34,
+      preserveAspectRatio:"xMidYMid meet",
+      style:"cursor:pointer"
+    }, g);
+    img.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
+    img.addEventListener("mouseleave", () => {hoverTeam=null; updateStyles();});
+    img.addEventListener("click", () => lockTeam(name));
+
+    const lbl = text(labelX, ly-2, `${t.abbr}  ${t.officialPoints} pts`, {
+      fill:t.color,"font-size":12.5,"font-weight":800,style:"cursor:pointer"
+    }, g);
+    const sub = text(labelX, ly+12, `${t.games}J · índice ${t.finalNorm >= 0 ? "+" : ""}${t.finalNorm}`, {
+      fill:"#667085","font-size":9.5,style:"cursor:pointer"
+    }, g);
+    [lbl,sub].forEach(node => {
+      node.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
+      node.addEventListener("mouseleave", () => {hoverTeam=null; updateStyles();});
+      node.addEventListener("click", () => lockTeam(name));
+    });
+  }
+}
+
+// No celular, os dados finais ficam em uma lista legível abaixo do gráfico.
+compactTeamGrid.replaceChildren();
+for (const name of DATA.ranking) {
+  const t = DATA.teams[name];
+  const item = document.createElement("button");
+  item.type = "button";
+  item.className = "compact-team-item";
+  item.dataset.team = name;
+  item.setAttribute("aria-label", `${name}, ${t.officialPoints} pontos, ${t.games} jogos, índice ${t.finalNorm}`);
+  const logo = document.createElement("img");
+  logo.src = t.logo;
+  logo.alt = "";
+  logo.loading = "lazy";
+  const copy = document.createElement("span");
+  copy.className = "compact-team-copy";
+  const main = document.createElement("span");
+  main.className = "compact-team-main";
+  main.style.color = t.color;
+  main.textContent = `${t.abbr} · ${t.officialPoints} pts`;
+  const sub = document.createElement("span");
+  sub.className = "compact-team-sub";
+  sub.textContent = `${t.games}J · índice ${t.finalNorm >= 0 ? "+" : ""}${t.finalNorm}`;
+  copy.append(main, sub);
+  item.append(logo, copy);
+  item.addEventListener("click", () => lockTeam(name));
+  compactTeamGrid.appendChild(item);
 }
 
 // Tooltip
@@ -494,34 +561,63 @@ function updateStyles() {
       line.setAttribute("stroke-width", isActive ? "4.1" : "1.7");
       halo.setAttribute("stroke-width", isActive ? "6.4" : "4.1");
       markers.style.opacity = isActive ? "1" : "0";
-      connector.setAttribute("opacity", isActive ? ".9" : ".18");
+      if (connector) connector.setAttribute("opacity", isActive ? ".9" : ".18");
     } else {
       g.style.opacity = "1";
       line.setAttribute("stroke-width", name==="Santos" ? "3.2" : "2.05");
       halo.setAttribute("stroke-width", name==="Santos" ? "5.6" : "4.6");
       markers.style.opacity = name==="Santos" ? "1" : "0";
-      connector.setAttribute("opacity", name==="Santos" ? ".75" : ".45");
+      if (connector) connector.setAttribute("opacity", name==="Santos" ? ".75" : ".45");
     }
   }
+  document.querySelectorAll(".compact-team-item").forEach(item => {
+    const isActive = !active || item.dataset.team === active;
+    item.style.opacity = isActive ? "1" : ".42";
+    item.classList.toggle("selected", Boolean(active) && item.dataset.team === active);
+  });
 }
 
 document.getElementById("matchCount").textContent = `${DATA.matchCount} jogos concluídos`;
 document.getElementById("lastDate").textContent = `dados até ${new Intl.DateTimeFormat("pt-BR").format(new Date(DATA.lastDate + "T12:00:00"))}`;
 
 select.innerHTML = `<option value="">Todos os times</option>` + DATA.ranking.map(name =>
-  `<option value="${name}" ${name===DATA.defaultTeam ? "selected" : ""}>${name}</option>`
+  `<option value="${name}" ${name===lockedTeam ? "selected" : ""}>${name}</option>`
 ).join("");
 
 select.addEventListener("change", () => {
-  lockedTeam = select.value || null;
-  updateStyles();
+  if (select.value) lockTeam(select.value);
+  else {
+    lockedTeam = null;
+    try { sessionStorage.removeItem("brasileirao-selected-team"); } catch {}
+    updateStyles();
+  }
 });
 allBtn.addEventListener("click", () => {
   lockedTeam = null;
   hoverTeam = null;
   select.value = "";
+  try { sessionStorage.removeItem("brasileirao-selected-team"); } catch {}
   hideTooltip();
   updateStyles();
+});
+
+function lockTeam(name) {
+  lockedTeam = name;
+  select.value = name;
+  try { sessionStorage.setItem("brasileirao-selected-team", name); } catch {}
+  updateStyles();
+}
+
+// Recarrega apenas quando a orientação/largura muda de modo a exigir novo viewBox.
+let previousLandscape = window.matchMedia("(orientation: landscape)").matches;
+let previousWidth = wrap.clientWidth;
+window.addEventListener("resize", () => {
+  const landscape = window.matchMedia("(orientation: landscape)").matches;
+  const width = wrap.clientWidth;
+  const crossedResponsiveMode = window.matchMedia("(max-width: 900px)").matches !== isCompact;
+  if (crossedResponsiveMode || (isCompact && (landscape !== previousLandscape || Math.abs(width-previousWidth) > 80))) {
+    window.location.reload();
+  }
 });
 
 updateStyles();
