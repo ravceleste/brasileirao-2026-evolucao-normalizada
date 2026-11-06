@@ -133,6 +133,20 @@ svg {
   margin-left:auto;
 }
 .chart-scroll-hint { display:none; }
+@media (max-width:900px) {
+  svg { min-width:0; }
+  .chart-scroll {
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+  }
+  .chart-scroll-hint {
+    display:block;
+    padding:11px 13px 0;
+    color:var(--muted);
+    font-size:12px;
+    line-height:1.4;
+  }
+}
 @media (max-width:800px) {
   .page { padding:18px 10px 26px; }
   .header { display:block; }
@@ -169,14 +183,6 @@ svg {
     -webkit-overflow-scrolling:touch;
     overscroll-behavior-x:contain;
     touch-action:pan-x pan-y;
-  }
-  svg { min-width:0; }
-  .chart-scroll-hint {
-    display:block;
-    padding:11px 13px 0;
-    color:var(--muted);
-    font-size:12px;
-    line-height:1.4;
   }
   .tooltip {
     width:min(280px,calc(100vw - 56px));
@@ -238,17 +244,20 @@ const select = document.getElementById("teamSelect");
 const allBtn = document.getElementById("allBtn");
 
 const NS = "http://www.w3.org/2000/svg";
-const isCompact = window.matchMedia("(max-width: 600px)").matches;
+const isCompact = window.matchMedia("(max-width: 900px)").matches;
+const isNarrow = window.matchMedia("(max-width: 600px)").matches;
 const W = isCompact ? Math.max(340, wrap.clientWidth) : 1450;
-const H = isCompact ? 720 : 830;
+const H = isCompact ? (isNarrow ? 720 : 670) : 830;
 const M = isCompact
-  ? {left:46, top:42, right:104, bottom:68}
+  ? (isNarrow
+    ? {left:46, top:42, right:104, bottom:68}
+    : {left:58, top:42, right:132, bottom:68})
   : {left:74, top:42, right:305, bottom:72};
 svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
 const plotW = W - M.left - M.right;
 const plotH = H - M.top - M.bottom;
-const labelX = W - (isCompact ? 77 : 208);
-const logoX = W - (isCompact ? 108 : 244);
+const labelX = W - (isCompact ? (isNarrow ? 77 : 96) : 208);
+const logoX = W - (isCompact ? (isNarrow ? 108 : 130) : 244);
 
 let lockedTeam = DATA.defaultTeam;
 let hoverTeam = null;
@@ -397,7 +406,7 @@ for (const name of DATA.ranking.slice().reverse()) {
   const ly = labelY[name];
   const connector = el("line", {
     x1:xScale(last.game)+5, y1:yScale(last.norm),
-    x2:logoX-(isCompact?14:20), y2:ly,
+    x2:logoX-(isCompact?(isNarrow?14:16):20), y2:ly,
     stroke:t.color,"stroke-width":.9,opacity:.48,
     class:"connector"
   }, g);
@@ -411,8 +420,8 @@ for (const name of DATA.ranking.slice().reverse()) {
   // logo
   const img = el("image", {
     href:t.logo,
-    x:logoX-(isCompact?11:17),y:ly-(isCompact?11:17),
-    width:isCompact?22:34,height:isCompact?22:34,
+    x:logoX-(isCompact?(isNarrow?11:14):17),y:ly-(isCompact?(isNarrow?11:14):17),
+    width:isCompact?(isNarrow?22:28):34,height:isCompact?(isNarrow?22:28):34,
     preserveAspectRatio:"xMidYMid meet",
     style:"cursor:pointer"
   }, g);
@@ -422,10 +431,10 @@ for (const name of DATA.ranking.slice().reverse()) {
 
   // label
   const lbl = text(labelX, ly-2, `${t.abbr}  ${t.officialPoints} pts`, {
-    fill:t.color,"font-size":isCompact?9:12.5,"font-weight":800,style:"cursor:pointer"
+    fill:t.color,"font-size":isCompact?(isNarrow?9:11):12.5,"font-weight":800,style:"cursor:pointer"
   }, g);
   const sub = text(labelX, ly+12, `${t.games}J · índice ${t.finalNorm >= 0 ? "+" : ""}${t.finalNorm}`, {
-    fill:"#667085","font-size":isCompact?7.5:9.5,style:"cursor:pointer"
+    fill:"#667085","font-size":isCompact?(isNarrow?7.5:8.5):9.5,style:"cursor:pointer"
   }, g);
   [lbl,sub].forEach(node => {
     node.addEventListener("mouseenter", () => {hoverTeam=name; updateStyles();});
