@@ -2,12 +2,6 @@
   "timezone": "America/Sao_Paulo",
   "check_after_kickoff_minutes": 135,
   "checks": {
-    "15 22 26 11 *": {
-      "check_at": "2026-11-26T22:15:00-03:00",
-      "event_ids": [
-        "401841329"
-      ]
-    },
     "15 22 27 11 *": {
       "check_at": "2026-11-27T22:15:00-03:00",
       "event_ids": [
